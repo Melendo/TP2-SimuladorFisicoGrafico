@@ -3,7 +3,7 @@ package simulator.factories;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +117,7 @@ class BuilderBasedFactoryTest {
 		}, "Should throw an exception if no 'type' is given");
 
 		// must have id
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			fb.createInstance(new JSONObject("{\"type\": \"bla\" }\n"));
 		}, "Should throw IllegalArgumentException if no correspoing builder found");
 

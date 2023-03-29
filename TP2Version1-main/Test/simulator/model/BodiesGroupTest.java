@@ -2,7 +2,7 @@ package simulator.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -181,16 +181,16 @@ class BodiesGroupTest {
 	@Test
 	void errors_handling() {
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new BodiesGroup("", new NewtonUniversalGravitation(10.0)), "Id cannot be empty");
 
 		// id must include at least one char that is no white space
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new BodiesGroup("  ", new NewtonUniversalGravitation(10.0)),
 				"Id must have at least one char that is not white space");
 
 		// gid cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class, () -> new BodiesGroup("milkyway", null),
+		assertThrows(IllegalArgumentException.class, () -> new BodiesGroup("milkyway", null),
 				"Force laws cannot be null");
 
 		Body b1 = new MovingBody("earth", "milkyway", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0);
@@ -199,25 +199,25 @@ class BodiesGroupTest {
 		BodiesGroup g = new BodiesGroup("milkyway", new NewtonUniversalGravitation(10.0));
 
 		// bodies in the same group must have different ids
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			g.addBody(b1);
 			g.addBody(b2);
 		}, "Bodies in a group must have different ids");
 
 		// bodies cannot be null
-		assertThrowsExactly(IllegalArgumentException.class, () -> g.addBody(null),
+		assertThrows(IllegalArgumentException.class, () -> g.addBody(null),
 				"Bodies in a group must have different ids");
 
 		// force laws cannot be null
-		assertThrowsExactly(IllegalArgumentException.class, () -> g.setForceLaws(null),
+		assertThrows(IllegalArgumentException.class, () -> g.setForceLaws(null),
 				"Bodies in a group must have different ids");
 
 		// Delta time must be positive
-		assertThrowsExactly(IllegalArgumentException.class, () -> g.advance(0),
+		assertThrows(IllegalArgumentException.class, () -> g.advance(0),
 				"Delta time must be positive");
 
 		// Delta time must be positive
-		assertThrowsExactly(IllegalArgumentException.class, () -> g.advance(-1.0),
+		assertThrows(IllegalArgumentException.class, () -> g.advance(-1.0),
 				"Delta time must be positive");
 
 	}

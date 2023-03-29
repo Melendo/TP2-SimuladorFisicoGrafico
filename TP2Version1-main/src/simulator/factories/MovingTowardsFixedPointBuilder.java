@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import simulator.misc.Vector2D;
 import simulator.model.ForceLaws;
 import simulator.model.MovingTowardsFixedPoint;
-import simulator.model.NewtonUniversalGravitation;
 
 
 
@@ -41,4 +40,15 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 		return new MovingTowardsFixedPoint(c, g);
 	}	
+	
+	public JSONObject getInfo() {
+		JSONObject json = new JSONObject();
+		JSONObject data = new JSONObject();
+		json.put("type", _typeTag);
+		json.put("desc", _desc);
+		data.put("c", "the point towards which bodies move (e.g., [100.0,50.0])");
+		data.put("g", "the length of the acceleration vector (a number)");
+		json.put("data", data);
+		return json;
+	}
 }

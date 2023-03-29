@@ -2,7 +2,7 @@ package simulator.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -67,50 +67,50 @@ class MovingBodyTest {
 	void errors_handling() {
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("", "milkyway", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0),
 				"Id cannot be empty");
 
 		// id must include at least one char that is no white space
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody(" 	", "milkyway", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0),
 				"Id must have at least one char that is not white space");
 
 		// gid cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("earth", "", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0),
 				"Id cannot be empty");
 
 		// gid must include at least one char that is no white space
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("eart", " 	", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0),
 				"gId must have at least one char that is not white space");
 
 		// id cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody(null, "milkyway", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0),
 				"Id cannot be null");
 
 		// gid cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("earth", null, new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0),
 				"gId cannot be null");
 
 		// position cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("earth", "milkyway", null, new Vector2D(3.4, 1.2), 10.0),
 				"position vector cannot be null");
 
 		// velocity cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("earth", "milkyway", new Vector2D(2.0, 2.0), null, 10.0),
 				"velocity vector cannot be null");
 
 		// mass must be positive
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("earth", "milkyway", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), -10.0),
 				"mass cannot be negative");
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new MovingBody("earth", "milkyway", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 0.0),
 				"mass cannot be zero");
 
