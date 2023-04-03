@@ -24,5 +24,15 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws> {
 		}
 		return new NewtonUniversalGravitation(6.67E-11);
 	}
+	
+	public JSONObject getInfo() {
+		JSONObject json = new JSONObject();
+		JSONObject data = new JSONObject();
+		json.put("type", _typeTag);
+		json.put("desc", _desc);
+		data.put("G", "the gravitational constant (a number)");
+		json.put("data", data);
+		return json;
+	}
 
 }

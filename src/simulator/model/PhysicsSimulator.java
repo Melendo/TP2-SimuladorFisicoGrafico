@@ -44,6 +44,7 @@ public class PhysicsSimulator {
 			throw new IllegalArgumentException("Ya existe un BodyGroup con ese id");
 		}
 	}
+	
 	public void addBody(Body b) {
 		if(mp.containsKey(b.getgId())) {
 			mp.get(b.getgId()).addBody(b);
@@ -52,6 +53,7 @@ public class PhysicsSimulator {
 			throw new IllegalArgumentException("Ya existe un Body con ese id en el Grupo");
 		}
 	}
+	
 	public void setForceLaws(String id, ForceLaws fl) {
 		if (!mp.containsKey(id)) {
 			throw new IllegalArgumentException("No existe un BG con este id");
@@ -60,6 +62,7 @@ public class PhysicsSimulator {
 			mp.get(id).setForceLaws(fl);
 		}
 	}
+	
 	public JSONObject getState() {
 		JSONObject jso = new JSONObject();
 		JSONArray jsa = new JSONArray();
@@ -73,10 +76,21 @@ public class PhysicsSimulator {
 
 		return jso;
 	}
+	
 	public String toString() {
 		return getState().toString();
 	}
 
-
+	public void reset() {
+		this.mp.clear();
+		this.listaId.clear();
+		this.ta = 0;
+	}
 	
+	public void setDeltaTime(double dt) {
+		if(dt < 0) {
+			throw new IllegalArgumentException("Delta-time debe ser positivo");
+		}
+		this.dt = dt;
+	}
 }
