@@ -2,6 +2,7 @@ package simulator.model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ public class BodiesGroup {
 	private String id;
 	private ForceLaws fl;
 	private List<Body> bs;
+	private List<Body> bsNM;
 	
 	BodiesGroup(String id, ForceLaws fl){
 		if(id == null ||  id.trim().length() <= 0) { 
@@ -24,6 +26,8 @@ public class BodiesGroup {
 		else this.fl = fl;
 		
 		this.bs = new ArrayList<Body>();
+		this.bsNM = Collections.unmodifiableList(bs);
+
 	}
 
 	public String getId() {
@@ -87,5 +91,9 @@ public class BodiesGroup {
 
 	public String toString() {
 		return getState().toString();
+	}
+	
+	public String getForceLawsInfo() {
+		return this.fl.toString();
 	}
 }
