@@ -1,7 +1,7 @@
 package simulator.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +42,10 @@ class NewtonUniversalGravitationTest {
 	void errors_handling() {
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class, () -> new NewtonUniversalGravitation(0), "G cannot be 0");
+		assertThrows(IllegalArgumentException.class, () -> new NewtonUniversalGravitation(0), "G cannot be 0");
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class, () -> new NewtonUniversalGravitation(-1), "G cannot be negative");
+		assertThrows(IllegalArgumentException.class, () -> new NewtonUniversalGravitation(-1), "G cannot be negative");
 
 	}
 

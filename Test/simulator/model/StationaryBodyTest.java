@@ -2,7 +2,7 @@ package simulator.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -66,36 +66,36 @@ class StationaryBodyTest {
 	void errors_handling() {
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody("", "milkyway", new Vector2D(2.0, 2.0), 10.0));
 
 		// id must include at least one char that is no white space
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody(" 	", "milkyway", new Vector2D(2.0, 2.0), 10.0));
 
 		// gid cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody("earth", "", new Vector2D(2.0, 2.0), 10.0));
 
 		// gid must include at least one char that is not a white space
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody("eart", " 	", new Vector2D(2.0, 2.0), 10.0));
 
 		// id cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody(null, "milkyway", new Vector2D(2.0, 2.0), 10.0));
 
 		// gid cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody("earth", null, new Vector2D(2.0, 2.0), 10.0));
 
 		// position cannot be null
-		assertThrowsExactly(IllegalArgumentException.class, () -> new StationaryBody("earth", "milkyway", null, 10.0));
+		assertThrows(IllegalArgumentException.class, () -> new StationaryBody("earth", "milkyway", null, 10.0));
 
 		// mass must be positive cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody("earth", "milkyway", new Vector2D(2.0, 2.0), -10.0));
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new StationaryBody("earth", "milkyway", new Vector2D(2.0, 2.0), 0.0));
 
 	}

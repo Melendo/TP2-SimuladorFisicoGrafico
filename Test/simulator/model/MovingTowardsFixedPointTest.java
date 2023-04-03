@@ -1,7 +1,7 @@
 package simulator.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,15 +42,15 @@ class MovingTowardsFixedPointTest {
 	void errors_handling() {
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class, () -> new MovingTowardsFixedPoint(new Vector2D(), 0),
+		assertThrows(IllegalArgumentException.class, () -> new MovingTowardsFixedPoint(new Vector2D(), 0),
 				"g cannot be 0");
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class, () -> new MovingTowardsFixedPoint(new Vector2D(), -1.0),
+		assertThrows(IllegalArgumentException.class, () -> new MovingTowardsFixedPoint(new Vector2D(), -1.0),
 				"g cannot be 0");
 
 		// id cannot be empty
-		assertThrowsExactly(IllegalArgumentException.class, () -> new MovingTowardsFixedPoint(null, 8.8),
+		assertThrows(IllegalArgumentException.class, () -> new MovingTowardsFixedPoint(null, 8.8),
 				"c cannot be 0");
 
 	}

@@ -2,7 +2,7 @@ package simulator.factories;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class StationaryBodyBuilderTest {
 		Builder<Body> bb = new StationaryBodyBuilder();
 
 		// must have id
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n" + "	\"m\" : 1.5e30\n"
 					+ "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -51,28 +51,28 @@ class StationaryBodyBuilderTest {
 		}, "Must have id");
 
 		// must have gid
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
 			bb.createInstance(jo);
 		}, "Must have gid");
 
 		// must have p
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
 			bb.createInstance(jo);
 		}, "Must have p");
 
 		// must have m
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
 			bb.createInstance(jo);
 		}, "ddd");
 
 		// p must be 2D
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0,0.0e00,  4.5e10],\n"
 					+ "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);

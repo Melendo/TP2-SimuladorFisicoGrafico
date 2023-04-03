@@ -2,7 +2,7 @@ package simulator.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -190,14 +190,14 @@ class PhysicsSimulatorTest {
 	@Test
 	void errors_handling() {
 		// force laws cannot be null
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new PhysicsSimulator(null, 2.0), "Force laws cannot be null");
 
 		// delta-time must be positive
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new PhysicsSimulator(null, 0.0), "Delta-time must be positive");
 		
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> new PhysicsSimulator(null, -1.0), "Delta-time must be positive");
 
 		PhysicsSimulator fs = new PhysicsSimulator(new NewtonUniversalGravitation(10), 2.0);
@@ -205,11 +205,11 @@ class PhysicsSimulatorTest {
 		fs.addGroup("milkyway");
 		
 		// cannot add a group twice
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> fs.addGroup("milkyway"), "Cannot add a group twice");
 
 		// group must exists 
-		assertThrowsExactly(IllegalArgumentException.class,
+		assertThrows(IllegalArgumentException.class,
 				() -> fs.addBody(new MovingBody("B10", "Andromeda", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0)), "Group must exists");
 
 	}

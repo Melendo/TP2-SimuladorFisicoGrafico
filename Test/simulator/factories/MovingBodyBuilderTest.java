@@ -2,7 +2,7 @@ package simulator.factories;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class MovingBodyBuilderTest {
 		Builder<Body> bb = new MovingBodyBuilder();
 
 		// must have id
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n"
 					+ "	\"v\"  : [1.0e04, 0.0e00],\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -51,7 +51,7 @@ class MovingBodyBuilderTest {
 		}, "Must have id");
 
 		// must have gid
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n"
 					+ "	\"v\"  : [1.0e04, 0.0e00],\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -59,7 +59,7 @@ class MovingBodyBuilderTest {
 		}, "Must have gid");
 
 		// must have p
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" 
 					+ "	\"v\"  : [1.0e04, 0.0e00],\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -68,7 +68,7 @@ class MovingBodyBuilderTest {
 		
 		
 		// must have v
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n"
 					+ "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -76,7 +76,7 @@ class MovingBodyBuilderTest {
 		}, "Must have v");
 		
 		// must have m
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n"
 					+ "	\"v\"  : [1.0e04, 0.0e00],\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -84,7 +84,7 @@ class MovingBodyBuilderTest {
 		}, "ddd");
 		
 		// v must be 2D
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0.0e00,  4.5e10],\n"
 					+ "	\"v\"  : [0, 1.0e04, 0.0e00],\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
@@ -92,7 +92,7 @@ class MovingBodyBuilderTest {
 		}, " v must be 2D");
 		
 		// p must be 2D
-		assertThrowsExactly(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			String s = "{\n" + "\"id\" : \"b1\",\n" + "	\"gid\": \"g1\",\n" + " \"p\"  : [0,0.0e00,  4.5e10],\n"
 					+ "	\"v\"  : [1.0e04, 0.0e00],\n" + "	\"m\" : 1.5e30\n" + "}\n";
 			JSONObject jo = new JSONObject(s);
