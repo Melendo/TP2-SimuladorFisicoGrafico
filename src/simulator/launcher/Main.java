@@ -171,9 +171,6 @@ public class Main {
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		if(line.hasOption("o")) {
 			_outFile = line.getOptionValue("o");
-			if (_outFile == null) {
-				_outFile = _outputDefaultValue;
-			}
 		}
 	}
 
@@ -259,6 +256,7 @@ public class Main {
 		ctr.loadData(is);
 		ctr.run(_dtime, os);
 		is.close();
+		os.close();
 	}
 
 

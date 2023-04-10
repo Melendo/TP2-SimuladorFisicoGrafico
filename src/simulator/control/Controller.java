@@ -47,17 +47,18 @@ public class Controller {
 		}
 	}
 
-	public void run(double n, OutputStream out) {
-		JSONArray arrayStates = new JSONArray();		
+	public void run(double n, OutputStream out) {		
 		PrintStream p = new PrintStream(out);
 		
 		p.println("{");
 		p.println("\"states\": [");
-		for (int i = 0; i < n; i++) {
+		
+		sim.advance();
+		p.println(sim.getState());
+		for (int i = 1; i < n; i++) {
 			sim.advance();
-			arrayStates.put(sim.getState());
+			p.println("," + sim.getState());
 		}
-		p.println(arrayStates);
 		p.println("]");
 		p.println("}");
 

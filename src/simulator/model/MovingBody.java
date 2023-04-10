@@ -15,7 +15,7 @@ public class MovingBody extends Body {
 	void advance(double dt) {
 		if(this.m == 0) {
 			this.a = new Vector2D();
-			//ANYADIR SET VELOCIDAD = 0 ???
+		
 		}
 		else {
 			this.a = this.f.scale(1/m);

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +18,8 @@ public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
+	private int pizqx = 500;
+	private int pizqy = 250;
 	
 	public MainWindow(Controller ctrl) {
 		super("Physics Simulator");
@@ -41,23 +44,27 @@ public class MainWindow extends JFrame {
 	// TODO crear la tabla de grupos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
 		JTable groupsTable = new JTable(new GroupsTableModel(_ctrl));
-		JPanel groupsView = createViewPanel(groupsTable, "Grupos");
+		JPanel groupsView = createViewPanel(groupsTable, "Groups");
 		groupsTable.setShowGrid(false);
-		groupsView.setPreferredSize(new Dimension(500, 250));
+		groupsView.setPreferredSize(new Dimension(pizqx, pizqy));
 		contentPanel.add(groupsView);
+		createViewPanel(new JTable(new GroupsTableModel(_ctrl)), "Groups");
+		groupsView.setBorder(new TitledBorder("Groups"));
 		
 		
 	// TODO crear la tabla de cuerpos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
 		JTable bodiesTable = new JTable(new BodiesTableModel(_ctrl));
-		JPanel bodiesView = createViewPanel(bodiesTable, "Cuerpos");
+		JPanel bodiesView = createViewPanel(bodiesTable, "Bodies");
 		bodiesTable.setShowGrid(false);
-		bodiesView.setPreferredSize(new Dimension(500, 250));
+		bodiesView.setPreferredSize(new Dimension(pizqx, pizqy));
 		contentPanel.add(bodiesView);
+		createViewPanel(new JTable(new BodiesTableModel(_ctrl)), "Bodies");
+		groupsView.setBorder(new TitledBorder("Bodies"));
 		
 		
 	// TODO llama a Utils.quit(MainWindow.this) en el método windowClosing
-		//addWindowListener();
+		//addWindowListener(Utils.quit(MainWindow.this));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		pack();
 		setVisible(true);

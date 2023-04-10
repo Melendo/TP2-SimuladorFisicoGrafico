@@ -1,6 +1,5 @@
 package simulator.model;
 
-import java.util.Iterator;
 import java.util.List;
 import simulator.misc.Vector2D;
 
@@ -17,26 +16,22 @@ public class NewtonUniversalGravitation implements ForceLaws{
 
 	@Override
 	public void apply(List<Body> bs) {
-		Iterator<Body> it = bs.iterator();
-		Body bi, bj;
 		double p, d, f;
 		Vector2D fc;
 		
-		while(it.hasNext()) {
-			
-			bi = it.next();
-			Iterator<Body> itT = bs.iterator();
+		for(Body bi : bs) {
+			for(Body bj : bs) {
 				
-			while(itT.hasNext()) {
-					
-				bj = itT.next();
-				if(!(bi == bj)) {
+				if(bi != bj) {
 					p = g * bi.getMass() * bj.getMass();
 					d = bj.getPosition().distanceTo(bi.getPosition());
-					d *= d;
-					f = p/d;
-					fc = bj.getPosition().minus(bi.getPosition()).direction().scale(f); 
-					bi.addForce(fc); 
+					if(d > 0) {
+						d *= d;
+						f = p/d;
+						fc = bj.getPosition().minus(bi.getPosition()).direction().scale(f); 
+						bi.addForce(fc); 
+					}
+					else throw new ArithmeticException("D debe ser mayor a cero");
 				}
 			}
 		}

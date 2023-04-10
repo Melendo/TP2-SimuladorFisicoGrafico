@@ -8,7 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.filechooser.FileSystemView;
+
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import simulator.control.Controller;
 import simulator.model.BodiesGroup;
@@ -22,7 +29,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JToolBar _toolaBar;
 	private JFileChooser _fc;
 	private boolean _stopped = true; // utilizado en los botones de run/stop
-	private JButton _quitButton;
+	private JButton _quitButton, fileButton, stopButton;
 	// TODO añade más atributos aquí …
 	
 	
@@ -32,25 +39,74 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		initGUI();
 	
 	}
-	private void initGUI() {
-	setLayout(new BorderLayout());
-	_toolaBar = new JToolBar();
-	add(_toolaBar, BorderLayout.PAGE_START);
-	// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
-	// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
-	// _toolaBar.addSeparator() para añadir la línea de separación vertical
-	// entre las componentes que lo necesiten
-	// Quit Button
-	_toolaBar.add(Box.createGlue()); // this aligns the button to the right
-	_toolaBar.addSeparator();
-	_quitButton = new JButton();
-	_quitButton.setToolTipText("Quit");
-	_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-	_quitButton.addActionListener((e) -> Utils.quit(this));
-	_toolaBar.add(_quitButton);
 	
-	// TODO crear el selector de ficheros
-	//_fc = …
+	private void initGUI() {
+		setLayout(new BorderLayout());
+		_toolaBar = new JToolBar();
+		_fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		add(_toolaBar, BorderLayout.PAGE_START);
+		
+		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
+		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
+		// _toolaBar.addSeparator() para añadir la línea de separación vertical
+		// entre las componentes que lo necesiten
+		fileButton = new JButton();
+		fileButton.setToolTipText("Open file");
+		fileButton.setIcon(new ImageIcon("resources/icons/open.png"));
+		fileButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r = _fc.showOpenDialog(Utils.getWindow(_fc));
+				if(r == JFileChooser.APPROVE_OPTION) {
+					File file = _fc.getSelectedFile();
+					try {
+						//Pasarlo a Main el _inFile???
+						_ctrl.reset();
+						_ctrl.loadData(new FileInputStream(file));
+					} catch (FileNotFoundException fnf) {
+						Utils.showErrorMsg("No se encontro el archivo");
+					}
+				}
+			}
+
+		});
+		_toolaBar.add(fileButton);
+		_toolaBar.addSeparator();
+		
+		
+		stopButton = new JButton();
+		stopButton.setToolTipText("Stop simulation");
+		stopButton.setIcon(new ImageIcon("resources/icons/stop.png"));
+		stopButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				_stopped = true;
+				enableToolBar(true);
+			}
+
+		});
+		stopButton.setEnabled(false);
+		_toolaBar.add(stopButton);
+		_toolaBar.addSeparator();
+		
+		// Quit Button
+		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
+		_toolaBar.addSeparator();
+		_quitButton = new JButton();
+		_quitButton.setToolTipText("Quit");
+		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
+		_quitButton.addActionListener((e) -> Utils.quit(this));
+		_toolaBar.add(_quitButton);
+	
+	}
+	
+	private void enableToolBar(boolean enable) {
+		fileButton.setEnabled(enable);
+		//ForceLaws
+		//Run
+		stopButton.setEnabled(!enable);
+		_quitButton.setEnabled(enable);
+		
 	}
 	
 	@Override
