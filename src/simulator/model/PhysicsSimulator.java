@@ -51,7 +51,7 @@ public class PhysicsSimulator implements Observable<SimulatorObserver>{
 			listaId.add(id);
 			
 			for(SimulatorObserver o : this.listaOb) {
-				o.onGroupAdded(mpNM, mp.get(id));
+				o.onGroupAdded(mpNM, mpNM.get(id));
 			}
 		}
 		else {
@@ -81,7 +81,7 @@ public class PhysicsSimulator implements Observable<SimulatorObserver>{
 			mp.get(id).setForceLaws(fl);
 			
 			for(SimulatorObserver o : this.listaOb) {
-				o.onForceLawsChanged(mp.get(id));
+				o.onForceLawsChanged(mpNM.get(id));
 			}
 		}
 	}
@@ -92,6 +92,7 @@ public class PhysicsSimulator implements Observable<SimulatorObserver>{
 
 		for (String clave : listaId)
 			jsa.put(mp.get(clave).getState());
+		
 		jso.put("groups", jsa);
 		jso.put("time", this.ta);
 

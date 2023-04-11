@@ -43,24 +43,16 @@ public class MainWindow extends JFrame {
 
 	// TODO crear la tabla de grupos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-		JTable groupsTable = new JTable(new GroupsTableModel(_ctrl));
-		JPanel groupsView = createViewPanel(groupsTable, "Groups");
-		groupsTable.setShowGrid(false);
-		groupsView.setPreferredSize(new Dimension(pizqx, pizqy));
-		contentPanel.add(groupsView);
-		createViewPanel(new JTable(new GroupsTableModel(_ctrl)), "Groups");
-		groupsView.setBorder(new TitledBorder("Groups"));
+		InfoTable groupsTable = new InfoTable("Groups", new GroupsTableModel(_ctrl));
+		groupsTable.setPreferredSize(new Dimension(pizqx, pizqy));
+		contentPanel.add(groupsTable);
 		
 		
 	// TODO crear la tabla de cuerpos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-		JTable bodiesTable = new JTable(new BodiesTableModel(_ctrl));
-		JPanel bodiesView = createViewPanel(bodiesTable, "Bodies");
-		bodiesTable.setShowGrid(false);
-		bodiesView.setPreferredSize(new Dimension(pizqx, pizqy));
-		contentPanel.add(bodiesView);
-		createViewPanel(new JTable(new BodiesTableModel(_ctrl)), "Bodies");
-		groupsView.setBorder(new TitledBorder("Bodies"));
+		InfoTable bodiesTable = new InfoTable("Bodies", new BodiesTableModel(_ctrl));
+		bodiesTable.setPreferredSize(new Dimension(pizqx, pizqy));
+		contentPanel.add(bodiesTable);
 		
 		
 	// TODO llama a Utils.quit(MainWindow.this) en el método windowClosing
@@ -69,12 +61,5 @@ public class MainWindow extends JFrame {
 		pack();
 		setVisible(true);
 	}
-	
-	private JPanel createViewPanel(JComponent c, String title) {
-		JPanel p = new JPanel(new BorderLayout());
-		JScrollPane scroll = new JScrollPane(c);
-		scroll.getViewport().setBackground(Color.WHITE);
-		p.add(scroll);
-		return p;
-	}
+
 }
