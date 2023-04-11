@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -28,6 +30,7 @@ import simulator.factories.StationaryBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 
 public class Main {
@@ -46,6 +49,7 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static JSONObject _forceLawsInfo = null;
+	private static String modo = "";
 
 	// factories
 	private static Factory<Body> _bodyFactory;
@@ -75,6 +79,7 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
+			parseModeOption(line);
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseDeltaTimeOption(line);
@@ -130,6 +135,10 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
 				.desc("An integer representing the number of simulation steps. Default value: "
 						+ _stepsDefaultValue + ".")
+				.build());
+		
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+				.desc("Execution Mode. Possible values: 'batch' (Batch mode), 'gui' (Graphical User Interface mode). Default value: 'gui'.")
 				.build());
 
 		return cmdLineOptions;
@@ -191,6 +200,22 @@ public class Main {
 			assert (_steps > 0);
 		} catch (Exception e) {
 			throw new ParseException("Invalid steps value: " + steps);
+		}
+	}
+	
+	private static void parseModeOption(CommandLine line) throws ParseException{
+		if(line.hasOption("m")) {
+			if(line.getOptionValue("m").equalsIgnoreCase("console")) {
+				modo = "batch";
+			}else if(line.getOptionValue("m").equalsIgnoreCase("gui")){
+				modo = "gui";	
+			}	
+			else {
+				throw new ParseException("A valid mode is missing");
+			}
+		}
+		else {
+			modo = "gui";
 		}
 	}
 
@@ -258,11 +283,29 @@ public class Main {
 		is.close();
 		os.close();
 	}
+	
+	private static void startGUIMode() throws Exception {
+		PhysicsSimulator sim = new PhysicsSimulator(_forceLawsFactory.createInstance(_forceLawsInfo), _dtime);
+		Controller ctr = new Controller(sim, _bodyFactory, _forceLawsFactory); 
+		SwingUtilities.invokeAndWait(() -> new MainWindow(ctr));
+		
+		InputStream is = null;
+		try {
+			is = new FileInputStream(new File(_inFile));
+			ctr.loadData(is);
+		} catch (Exception e) {}
+		is.close();
+		
+	}
 
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		if(modo.equals("gui")){
+			startGUIMode();
+		} else if(modo.equals("batch")){
+			startBatchMode();
+		}
 	}
 
 	public static void main(String[] args) {

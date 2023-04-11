@@ -33,9 +33,13 @@ public class BodiesGroup {
 	public String getId() {
 		return id;
 	}
+	
+	public List<Body> getBodies() {
+		return bsNM;
+	}
 
 	public void setForceLaws(ForceLaws fl) {
-		if(fl == null ) { 
+		if(fl == null) { 
 			throw new IllegalArgumentException("ForceLaws no puede ser NULL");		
 		}
 		else this.fl = fl;
@@ -55,7 +59,7 @@ public class BodiesGroup {
 			throw new IllegalArgumentException("dt debe ser positivo");
 		}
 		else {
-			Iterator<Body> it = bs.iterator();
+			Iterator<Body> it = bsNM.iterator();
 			Body b;
 			while(it.hasNext()) {
 				b = it.next();
@@ -64,7 +68,7 @@ public class BodiesGroup {
 		
 			fl.apply(bs);
 		
-			Iterator<Body> itAux = bs.iterator();
+			Iterator<Body> itAux = bsNM.iterator();
 			while(itAux.hasNext()) {
 				b = itAux.next();
 				b.advance(dt);
@@ -79,7 +83,7 @@ public class BodiesGroup {
 		
 		json.put("id", getId());
 		
-		Iterator<Body> it = bs.iterator();
+		Iterator<Body> it = bsNM.iterator();
 		while(it.hasNext()) {
 			arrayBodies.put(it.next().getState());
 		}

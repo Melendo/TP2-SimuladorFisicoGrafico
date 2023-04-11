@@ -43,7 +43,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private void initGUI() {
 		setLayout(new BorderLayout());
 		_toolaBar = new JToolBar();
-		_fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		add(_toolaBar, BorderLayout.PAGE_START);
 		
 		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
@@ -56,19 +55,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		fileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int r = _fc.showOpenDialog(Utils.getWindow(_fc));
-				if(r == JFileChooser.APPROVE_OPTION) {
-					File file = _fc.getSelectedFile();
-					try {
-						//Pasarlo a Main el _inFile???
-						_ctrl.reset();
-						_ctrl.loadData(new FileInputStream(file));
-					} catch (FileNotFoundException fnf) {
-						Utils.showErrorMsg("No se encontro el archivo");
-					}
-				}
+				loadFile();
 			}
-
 		});
 		_toolaBar.add(fileButton);
 		_toolaBar.addSeparator();
@@ -80,14 +68,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		stopButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_stopped = true;
-				enableToolBar(true);
+				stop();
 			}
-
 		});
 		stopButton.setEnabled(false);
 		_toolaBar.add(stopButton);
 		_toolaBar.addSeparator();
+		
 		
 		// Quit Button
 		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
@@ -100,6 +87,29 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	}
 	
+	
+	private void loadFile() {
+		_fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		int r = _fc.showOpenDialog(Utils.getWindow(this));
+		if(r == JFileChooser.APPROVE_OPTION) {
+			File file = _fc.getSelectedFile();
+			try {
+				//Pasarlo a Main el _inFile???
+				_ctrl.reset();
+				_ctrl.loadData(new FileInputStream(file));
+			} catch (FileNotFoundException fnf) {
+				Utils.showErrorMsg("No se encontro el archivo");
+			}
+		}
+	}
+	
+	
+	private void stop() {
+		_stopped = true;
+		enableToolBar(true);
+	}
+	
+	
 	private void enableToolBar(boolean enable) {
 		fileButton.setEnabled(enable);
 		//ForceLaws
@@ -108,6 +118,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_quitButton.setEnabled(enable);
 		
 	}
+	
+	
 	
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {

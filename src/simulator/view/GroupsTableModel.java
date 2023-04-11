@@ -1,5 +1,7 @@
 package simulator.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
@@ -13,34 +15,48 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	
 	private static final long serialVersionUID = 1L;
 	Controller ctrl;
+	String[] _header = { "Id", "Force Laws", "Bodies" };
+	List<BodiesGroup> _groups;
 	
 	public GroupsTableModel(Controller ctrl) {
 		this.ctrl = ctrl;
+		this._groups = new ArrayList<BodiesGroup>();
 		ctrl.addObserver(this);
 	}
 	
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _groups.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _header.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		Object res = null;
+		BodiesGroup bg = _groups.get(rowIndex);
+		switch(columnIndex) {
+		case 0:
+			res = bg.getId();
+			break;
+		case 1:
+			res = bg.getForceLawsInfo();
+			break;
+		case 2:
+			res = bg.getBodies();
+			res = res.toString().replace('[', ' ').replace(',',' ').replace(']', ' ');
+			break;
+		}
+		return res;
 	}
 
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
