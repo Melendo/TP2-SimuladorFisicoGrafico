@@ -171,9 +171,11 @@ public class Main {
 	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
-		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
-			throw new ParseException("In batch mode an input file of bodies is required");
+		if(line.hasOption("i")) {
+			_inFile = line.getOptionValue("i");
+			if (_inFile == null) {
+				throw new ParseException("An input file of bodies is required");
+			}
 		}
 	}
 	
@@ -194,7 +196,7 @@ public class Main {
 	}
 	
 	private static void parseStepsOption(CommandLine line) throws ParseException {
-		String steps = line.getOptionValue("steps", _stepsDefaultValue.toString());
+		String steps = line.getOptionValue("s", _stepsDefaultValue.toString());
 		try {
 			_steps = Integer.parseInt(steps);
 			assert (_steps > 0);
