@@ -1,15 +1,10 @@
 package simulator.view;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.TitledBorder;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -45,17 +40,9 @@ public class MainWindow extends JFrame {
 
 	// TODO crear la tabla de grupos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-		/*InfoTable groupsTable = new InfoTable("Groups", new GroupsTableModel(_ctrl));
+		InfoTable groupsTable = new InfoTable("Groups", new GroupsTableModel(_ctrl));
 		groupsTable.setPreferredSize(new Dimension(pizqx, pizqy));
-		contentPanel.add(groupsTable);*/
-		//PROVISIONAL
-		JTable groupsTable = new JTable(new GroupsTableModel(_ctrl));
-		JPanel groupsView = createViewPanel(groupsTable, "Grupos");
-		groupsTable.setShowGrid(false);
-		groupsView.setPreferredSize(new Dimension(pizqx, pizqy));
-		groupsView.setBorder(new TitledBorder("Grupos"));
-		contentPanel.add(groupsView);
-		
+		contentPanel.add(groupsTable);
 		
 	// TODO crear la tabla de cuerpos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
@@ -115,12 +102,5 @@ public class MainWindow extends JFrame {
 		setVisible(true);
 	}
 	
-	private JPanel createViewPanel(JComponent c, String title) {
-		JPanel p = new JPanel(new BorderLayout());
-		JScrollPane scroll = new JScrollPane(c);
-		scroll.getViewport().setBackground(Color.WHITE);
-		p.add(scroll);
-		return p;
-	}
 
 }
