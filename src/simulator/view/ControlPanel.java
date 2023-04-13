@@ -36,6 +36,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private boolean _stopped = true; // utilizado en los botones de run/stop
 	private JButton _quitButton, fileButton, stopButton, runButton;
 	private JTextField deltaTime;
+	private JSpinner spinner;
 	// TODO añade más atributos aquí …
 	
 	
@@ -102,7 +103,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		JLabel texto2 = new JLabel("Steps:");
 		_toolaBar.add(texto2);
 		_toolaBar.addSeparator();
-		JSpinner spinner = new JSpinner( new SpinnerNumberModel(1, 1, 999999, 1));
+		spinner = new JSpinner( new SpinnerNumberModel(1, 1, 999999, 1));
 		_toolaBar.add(spinner);
 		_toolaBar.addSeparator();
 		
@@ -160,11 +161,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 	
 	private void run() {
-		double dtCast;
+		
 		_stopped = false;
 		enableToolBar(_stopped);
-		//dtCast = (double) deltaTime.getText();
-		//_ctrl.setDeltaTime(deltaTime.getText());
+		_ctrl.setDeltaTime(Double.parseDouble(deltaTime.getText()));
+		run_sim(Integer.parseInt(spinner.getValue().toString()));
 		
 	}
 	
