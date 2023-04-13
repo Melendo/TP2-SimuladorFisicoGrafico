@@ -6,7 +6,10 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileSystemView;
 
@@ -21,6 +24,8 @@ import simulator.control.Controller;
 import simulator.model.BodiesGroup;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 public class ControlPanel extends JPanel implements SimulatorObserver {
 
@@ -29,7 +34,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JToolBar _toolaBar;
 	private JFileChooser _fc;
 	private boolean _stopped = true; // utilizado en los botones de run/stop
-	private JButton _quitButton, fileButton, stopButton;
+	private JButton _quitButton, fileButton, stopButton, runButton;
+	private JTextField deltaTime;
 	// TODO añade más atributos aquí …
 	
 	
@@ -49,6 +55,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
 		// _toolaBar.addSeparator() para añadir la línea de separación vertical
 		// entre las componentes que lo necesiten
+		
+		//Boton open file
 		fileButton = new JButton();
 		fileButton.setToolTipText("Open file");
 		fileButton.setIcon(new ImageIcon("resources/icons/open.png"));
@@ -61,7 +69,21 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(fileButton);
 		_toolaBar.addSeparator();
 		
-		
+		//RunButton
+				runButton = new JButton();
+				runButton.setToolTipText("Stop simulation");
+				runButton.setIcon(new ImageIcon("resources/icons/run.png"));
+				runButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						run();
+					}
+				});
+				_toolaBar.add(fileButton);
+				_toolaBar.addSeparator();
+				
+				
+		//Boton StopButon
 		stopButton = new JButton();
 		stopButton.setToolTipText("Stop simulation");
 		stopButton.setIcon(new ImageIcon("resources/icons/stop.png"));
@@ -75,6 +97,32 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(stopButton);
 		_toolaBar.addSeparator();
 		
+		//JSpinner
+		
+		JLabel texto2 = new JLabel("Steps:");
+		_toolaBar.add(texto2);
+		_toolaBar.addSeparator();
+		JSpinner spinner = new JSpinner( new SpinnerNumberModel(1, 1, 999999, 1));
+		_toolaBar.add(spinner);
+		_toolaBar.addSeparator();
+		
+		
+		//JTextField
+		
+		JLabel texto = new JLabel("DeltaTime:");
+		_toolaBar.add(texto);
+		_toolaBar.addSeparator();
+		deltaTime = new JTextField(10);
+		deltaTime.setEditable(true);
+		_toolaBar.add(deltaTime);
+		_toolaBar.addSeparator();
+		
+		
+		
+		
+		
+		
+		
 		
 		// Quit Button
 		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
@@ -85,7 +133,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_quitButton.addActionListener((e) -> Utils.quit(this));
 		_toolaBar.add(_quitButton);
 	
+		
 	}
+	
 	
 	
 	private void loadFile() {
@@ -94,7 +144,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		if(r == JFileChooser.APPROVE_OPTION) {
 			File file = _fc.getSelectedFile();
 			try {
-				//Pasarlo a Main el _inFile???
 				_ctrl.reset();
 				_ctrl.loadData(new FileInputStream(file));
 			} catch (FileNotFoundException fnf) {
@@ -106,10 +155,36 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private void stop() {
 		_stopped = true;
-		enableToolBar(true);
+		enableToolBar(_stopped);
+		
 	}
 	
+	private void run() {
+		double dtCast;
+		_stopped = false;
+		enableToolBar(_stopped);
+		//dtCast = (double) deltaTime.getText();
+		//_ctrl.setDeltaTime(deltaTime.getText());
+		
+	}
 	
+	private void run_sim(int n) {
+		if (n > 0 && !_stopped) {
+		try {
+		_ctrl.run(1);
+		} catch (Exception e) {
+		// TODO llamar a Utils.showErrorMsg con el mensaje de error que
+		// corresponda
+		// TODO activar todos los botones
+		_stopped = true;
+		return;
+		}
+		SwingUtilities.invokeLater(() -> run_sim(n - 1));
+		} else {
+		// TODO activar todos los botones
+		_stopped = true;
+		}
+		}
 	private void enableToolBar(boolean enable) {
 		fileButton.setEnabled(enable);
 		//ForceLaws
