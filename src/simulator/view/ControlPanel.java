@@ -80,7 +80,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 						run();
 					}
 				});
-				_toolaBar.add(fileButton);
+				_toolaBar.add(runButton);
 				_toolaBar.addSeparator();
 				
 				
@@ -103,7 +103,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		JLabel texto2 = new JLabel("Steps:");
 		_toolaBar.add(texto2);
 		_toolaBar.addSeparator();
-		spinner = new JSpinner( new SpinnerNumberModel(1, 1, 999999, 1));
+		spinner = new JSpinner();
 		_toolaBar.add(spinner);
 		_toolaBar.addSeparator();
 		
@@ -176,16 +176,20 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		} catch (Exception e) {
 		// TODO llamar a Utils.showErrorMsg con el mensaje de error que
 		// corresponda
+			Utils.showErrorMsg(e.getMessage());
 		// TODO activar todos los botones
 		_stopped = true;
+		enableToolBar(_stopped);
 		return;
 		}
 		SwingUtilities.invokeLater(() -> run_sim(n - 1));
 		} else {
 		// TODO activar todos los botones
 		_stopped = true;
+		enableToolBar(_stopped);
 		}
 		}
+	
 	private void enableToolBar(boolean enable) {
 		fileButton.setEnabled(enable);
 		//ForceLaws
