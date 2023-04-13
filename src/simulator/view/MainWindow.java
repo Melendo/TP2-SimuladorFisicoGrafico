@@ -45,9 +45,16 @@ public class MainWindow extends JFrame {
 
 	// TODO crear la tabla de grupos y añadirla a contentPanel.
 	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-		InfoTable groupsTable = new InfoTable("Groups", new GroupsTableModel(_ctrl));
+		/*InfoTable groupsTable = new InfoTable("Groups", new GroupsTableModel(_ctrl));
 		groupsTable.setPreferredSize(new Dimension(pizqx, pizqy));
-		contentPanel.add(groupsTable);
+		contentPanel.add(groupsTable);*/
+		//PROVISIONAL
+		JTable groupsTable = new JTable(new GroupsTableModel(_ctrl));
+		JPanel groupsView = createViewPanel(groupsTable, "Grupos");
+		groupsTable.setShowGrid(false);
+		groupsView.setPreferredSize(new Dimension(pizqx, pizqy));
+		groupsView.setBorder(new TitledBorder("Grupos"));
+		contentPanel.add(groupsView);
 		
 		
 	// TODO crear la tabla de cuerpos y añadirla a contentPanel.
@@ -106,6 +113,14 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		pack();
 		setVisible(true);
+	}
+	
+	private JPanel createViewPanel(JComponent c, String title) {
+		JPanel p = new JPanel(new BorderLayout());
+		JScrollPane scroll = new JScrollPane(c);
+		scroll.getViewport().setBackground(Color.WHITE);
+		p.add(scroll);
+		return p;
 	}
 
 }

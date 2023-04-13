@@ -33,6 +33,10 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	public int getColumnCount() {
 		return _header.length;
 	}
+	
+	public String getColumnName(int i) {
+	    return _header[i];
+	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -46,8 +50,9 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 			res = bg.getForceLawsInfo();
 			break;
 		case 2:
-			res = bg.getBodies();
-			res = res.toString().replace('[', ' ').replace(',',' ').replace(']', ' ');
+			for(Body b : bg) {
+				res = b.getId();
+			}
 			break;
 		}
 		return res;
@@ -56,31 +61,44 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-
+		this._groups.clear();
+		for(String i : groups.keySet()) {
+			this._groups.add(groups.get(i));
+		}
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-
+		this._groups.clear();
+		for(String i : groups.keySet()) {
+			this._groups.add(groups.get(i));
+		}
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
 		// TODO Auto-generated method stub
-
+		_groups.add(g);
+		fireTableStructureChanged();
 	}
 
+	//BUSCAR MANERA MÁS EFICIENTE
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
-
+		this._groups.clear();
+		for(String i : groups.keySet()) {
+			this._groups.add(groups.get(i));
+		}
+		fireTableStructureChanged();
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class BodiesGroup {
+public class BodiesGroup implements Iterable<Body>{
 
 	private String id;
 	private ForceLaws fl;
@@ -33,10 +33,6 @@ public class BodiesGroup {
 	public String getId() {
 		return id;
 	}
-	
-	public List<Body> getBodies() {
-		return bsNM;
-	}
 
 	public void setForceLaws(ForceLaws fl) {
 		if(fl == null) { 
@@ -59,7 +55,7 @@ public class BodiesGroup {
 			throw new IllegalArgumentException("dt debe ser positivo");
 		}
 		else {
-			Iterator<Body> it = bsNM.iterator();
+			Iterator<Body> it = bs.iterator();
 			Body b;
 			while(it.hasNext()) {
 				b = it.next();
@@ -68,7 +64,7 @@ public class BodiesGroup {
 		
 			fl.apply(bs);
 		
-			Iterator<Body> itAux = bsNM.iterator();
+			Iterator<Body> itAux = bs.iterator();
 			while(itAux.hasNext()) {
 				b = itAux.next();
 				b.advance(dt);
@@ -83,7 +79,7 @@ public class BodiesGroup {
 		
 		json.put("id", getId());
 		
-		Iterator<Body> it = bsNM.iterator();
+		Iterator<Body> it = bs.iterator();
 		while(it.hasNext()) {
 			arrayBodies.put(it.next().getState());
 		}
@@ -99,5 +95,19 @@ public class BodiesGroup {
 	
 	public String getForceLawsInfo() {
 		return this.fl.toString();
+	}
+
+	@Override
+	public Iterator<Body> iterator() {
+		// TODO Auto-generated method stub
+		return new Iterator<Body>() {
+			Iterator<Body> it = bsNM.iterator();
+			@Override
+			public Body next() { return it.next(); }
+			@Override
+			public boolean hasNext() { return it.hasNext(); }
+			@Override
+			public void remove() { throw new UnsupportedOperationException("No se puede modificar la lista de cuerpos"); }
+			};
 	}
 }
