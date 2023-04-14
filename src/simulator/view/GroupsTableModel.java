@@ -67,9 +67,6 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
 		this._groups.clear();
-		for(String i : groups.keySet()) {
-			this._groups.add(groups.get(i));
-		}
 		fireTableStructureChanged();
 	}
 
