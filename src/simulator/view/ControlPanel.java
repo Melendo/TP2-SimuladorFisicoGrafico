@@ -6,6 +6,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -24,7 +25,6 @@ import simulator.control.Controller;
 import simulator.model.BodiesGroup;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 public class ControlPanel extends JPanel implements SimulatorObserver {
@@ -34,7 +34,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JToolBar _toolaBar;
 	private JFileChooser _fc;
 	private boolean _stopped = true; // utilizado en los botones de run/stop
-	private JButton _quitButton, fileButton, stopButton, runButton;
+	private JButton _quitButton, fileButton, stopButton, runButton, viewButton;
 	private JTextField deltaTime;
 	private JSpinner spinner;
 	// TODO añade más atributos aquí …
@@ -70,18 +70,33 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(fileButton);
 		_toolaBar.addSeparator();
 		
+		
+		//Viewer Button
+		viewButton = new JButton();
+		viewButton.setToolTipText("View Simulation");
+		viewButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
+		viewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				viewSimulation();
+			}
+		});
+		_toolaBar.add(viewButton);
+		_toolaBar.addSeparator();
+		
+		
 		//RunButton
-				runButton = new JButton();
-				runButton.setToolTipText("Stop simulation");
-				runButton.setIcon(new ImageIcon("resources/icons/run.png"));
-				runButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						run();
-					}
-				});
-				_toolaBar.add(runButton);
-				_toolaBar.addSeparator();
+		runButton = new JButton();
+		runButton.setToolTipText("Stop simulation");
+		runButton.setIcon(new ImageIcon("resources/icons/run.png"));
+		runButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				run();
+			}
+		});
+		_toolaBar.add(runButton);
+		_toolaBar.addSeparator();
 				
 				
 		//Boton StopButon
@@ -98,8 +113,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(stopButton);
 		_toolaBar.addSeparator();
 		
-		//JSpinner
 		
+		//JSpinner
 		JLabel texto2 = new JLabel("Steps:");
 		_toolaBar.add(texto2);
 		_toolaBar.addSeparator();
@@ -109,7 +124,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		
 		//JTextField
-		
 		JLabel texto = new JLabel("DeltaTime:");
 		_toolaBar.add(texto);
 		_toolaBar.addSeparator();
@@ -117,12 +131,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		deltaTime.setEditable(true);
 		_toolaBar.add(deltaTime);
 		_toolaBar.addSeparator();
-		
-		
-		
-		
-		
-		
 		
 		
 		// Quit Button
@@ -151,6 +159,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				Utils.showErrorMsg("No se encontro el archivo");
 			}
 		}
+	}
+	
+	
+	private void viewSimulation() {
+		JFrame frame = new JFrame();
+		ViewerWindow viewer = new ViewerWindow(frame, _ctrl);
 	}
 	
 	

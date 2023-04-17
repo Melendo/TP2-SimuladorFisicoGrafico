@@ -107,7 +107,7 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		_viewer.update();
+		
 	}
 
 	@Override
