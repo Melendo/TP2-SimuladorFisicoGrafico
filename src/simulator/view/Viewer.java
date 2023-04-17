@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+
 import simulator.misc.Vector2D;
 import simulator.model.BodiesGroup;
 import simulator.model.Body;
@@ -103,7 +105,7 @@ class Viewer extends SimulationViewer {
 			 * _originX/_originY, y luego llame a repaint(). Esto hará que el punto de
 			 * origen se mueva hacia la izquierda/derecha/arriba/abajo. Vea cómo se calculan
 			 * los valores de _centerX y _centerY en el método paintComponent
-			 * 
+			 *
 			 * TODO
 			 * 
 			 * EN: handle key 'k' to set _originX and _originY to 0, and then call
@@ -165,7 +167,35 @@ class Viewer extends SimulationViewer {
 					autoScale();
 					repaint();
 					break;
-
+				case 'j':
+					_originX -= 10;
+					repaint();
+				case 'l':
+					_originX += 10;
+					repaint();
+				case 'i':
+					_originY += 10;
+					repaint();
+				case 'm':
+					_originY -= 10;
+					repaint();
+				case 'k':
+					_originX = 0;
+					_originY = 0;
+					repaint();
+				case 'h':
+					_showHelp = !_showHelp;
+					repaint();
+				case 'v':
+					_showVectors = !_showVectors;
+					repaint();
+				case 'g':
+					_selectedGroupIdx--;
+					if(_selectedGroupIdx == -1) {
+						_selectedGroupIdx = _groups.size() - 1;
+						_selectedGroup = null;
+					}
+					else _selectedGroup = _groups.get(_selectedGroupIdx).getId();
 				default:
 				}
 			}
@@ -212,7 +242,10 @@ class Viewer extends SimulationViewer {
 		_centerY = getHeight() / 2 - _originY;
 
 		// TODO draw red cross at (_centerX,_centerY)
-
+		gr.setColor(Color.red);
+		gr.drawLine(_centerX-10, _centerY, _centerX+10, _centerY);
+		gr.drawLine(_centerX, _centerY-10, _centerX, _centerY+10);
+		
 		// draw bodies
 		drawBodies(gr);
 
@@ -244,6 +277,15 @@ class Viewer extends SimulationViewer {
 		 * Selected Group: ...
 		 * 
 		 */
+		g.setColor(Color.RED);
+		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit"
+				+ "\ng: show next group"
+				+ "\nl: move right, j: move left, i: move up, m: move down: k: reset"
+				+ "\nScaling ratio: " + _scale, 10, 30);
+		
+		g.setColor(Color.BLUE);
+		if(_selectedGroup != null) g.drawString("Selected groups: " + _selectedGroup, 10, 30);
+		else g.drawString("Selected groups: all", 10, 30);
 	}
 
 	private void drawBodies(Graphics2D g) {
@@ -269,6 +311,28 @@ class Viewer extends SimulationViewer {
 		 * valor de _scale.
 		 * 
 		 */
+		
+		for(Body b : _bodies) {
+			if(isVisible(b)) {
+				int posX = (int) (_centerX + (b.getPosition().getX()/_scale));
+				int posY = (int) (_centerY - (b.getPosition().getY()/_scale));
+				
+				//CUERPO
+				g.setColor(_gColor.get(b.getgId()));
+				g.fillOval(posX, posY, 10, 10);
+				
+				//ID
+				g.setColor(Color.BLACK);
+				g.drawString(b.getId(), posX - 10, posY + 10);
+				
+				if(_showVectors) {
+					//VECTOR FUERZA
+					drawLineWithArrow(g, posX, posY, posX + (int) b.getForce().getX(), posY + (int) b.getForce().getY(), 3, 6, Color.RED, Color.RED);
+					//VECTOR VELOCIDAD
+					drawLineWithArrow(g, posX, posY, posX + (int) b.getVelocity().getX(), posY + (int) b.getVelocity().getY(), 3, 6, Color.GREEN, Color.GREEN);
+				}
+			}
+		}
 	}
 
 	private boolean isVisible(Body b) {
@@ -280,7 +344,9 @@ class Viewer extends SimulationViewer {
 		 * ES: devuelve true si _selectedGroup es null o igual a b.getgId()
 		 *
 		 */
-		return false;
+		if(_selectedGroup == null || _selectedGroup == b.getgId()) return true;
+		else return false;
+		
 	}
 
 	// calculates a value for scale such that all visible bodies fit in the window
@@ -309,6 +375,10 @@ class Viewer extends SimulationViewer {
 		 * ES: añadir g a _groups y sus cuerpos a _bodies
 		 * 
 		 */
+		_groups.add(g);
+		for(Body b : g) {
+			_bodies.add(b);
+		}
 		_gColor.put(g.getId(), _colorGen.nextColor()); // assign color to group
 		autoScale();
 		update();
@@ -324,6 +394,7 @@ class Viewer extends SimulationViewer {
 		 *  ES: añadir b a _bodies
 		 *  
 		 */
+		_bodies.add(b);
 		autoScale();
 		update();
 	}
@@ -339,6 +410,9 @@ class Viewer extends SimulationViewer {
 		 * el mapa de colores
 		 * 
 		 */
+		_groups.clear();
+		_bodies.clear();
+		_gColor.clear();
 		_colorGen.reset(); // reset the color generator
 		_selectedGroupIdx = -1;
 		_selectedGroup = null;
