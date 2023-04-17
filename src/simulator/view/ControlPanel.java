@@ -15,6 +15,7 @@ import javax.swing.JToolBar;
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -34,10 +35,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JToolBar _toolaBar;
 	private JFileChooser _fc;
 	private boolean _stopped = true; // utilizado en los botones de run/stop
-	private JButton _quitButton, fileButton, stopButton, runButton, viewButton;
+	private JButton _quitButton, fileButton, stopButton, runButton, viewButton, ForceLawsDialogButton;
 	private JTextField deltaTime;
 	private JSpinner spinner;
-	// TODO añade más atributos aquí …
+	// TODO aï¿½ade mï¿½s atributos aquï¿½ ï¿½
 	
 	
 	ControlPanel(Controller ctrl) {
@@ -52,9 +53,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar = new JToolBar();
 		add(_toolaBar, BorderLayout.PAGE_START);
 		
-		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
+		// TODO crear los diferentes botones/atributos y aï¿½adirlos a _toolaBar.
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
-		// _toolaBar.addSeparator() para añadir la línea de separación vertical
+		// _toolaBar.addSeparator() para aï¿½adir la lï¿½nea de separaciï¿½n vertical
 		// entre las componentes que lo necesiten
 		
 		//Boton open file
@@ -70,6 +71,18 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(fileButton);
 		_toolaBar.addSeparator();
 		
+		//ForceLawsDialog Button
+				ForceLawsDialogButton = new JButton();
+				ForceLawsDialogButton.setToolTipText("Select force laws from groups");
+				ForceLawsDialogButton.setIcon(new ImageIcon("resources/icons/physics.png"));
+				ForceLawsDialogButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						forceLawsDialogAction();
+					}
+				});
+				_toolaBar.add(ForceLawsDialogButton);
+				_toolaBar.addSeparator();
 		
 		//Viewer Button
 		viewButton = new JButton();
@@ -161,6 +174,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		}
 	}
 	
+	private void forceLawsDialogAction() {
+		Frame frame = new Frame();
+		ForceLawsDialog fld = new ForceLawsDialog(frame, _ctrl);
+	}
 	
 	private void viewSimulation() {
 		JFrame frame = new JFrame();
