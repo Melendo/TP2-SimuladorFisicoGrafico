@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import simulator.control.Controller;
 import simulator.model.BodiesGroup;
@@ -15,6 +16,7 @@ import simulator.model.SimulatorObserver;
 
 public class ViewerWindow extends JFrame implements SimulatorObserver {
 	
+	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private SimulationViewer _viewer;
 	private JFrame _parent;
@@ -30,6 +32,8 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 	private void intiGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		// TODO poner contentPane como mainPanel con scrollbars (JScrollPane)
+		JScrollPane scroll = new JScrollPane();
+		mainPanel.add(scroll);
 		setContentPane(mainPanel);
 		// TODO crear el viewer y añadirlo a mainPanel (en el centro)
 		_viewer = new Viewer();
@@ -91,31 +95,31 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-
+		_viewer.update();
 	}
 
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-
+		_viewer.reset();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
 		// TODO Auto-generated method stub
-
+		_viewer.addGroup(g);
 	}
 
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
-
+		_viewer.addBody(b);
 	}
 
 	@Override
