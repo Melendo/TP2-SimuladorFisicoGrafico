@@ -24,9 +24,9 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 	ViewerWindow(JFrame parent, Controller ctrl) {
 		super("Simulation Viewer");
 		_ctrl = ctrl;
-		_ctrl.addObserver(this);
 		_parent = parent;
 		intiGUI();
+		_ctrl.addObserver(this);
 	}
 	
 	private void intiGUI() {
@@ -107,6 +107,9 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
+		for(String i : groups.keySet()) {
+			_viewer.addGroup(groups.get(i));
+		}
 		
 	}
 

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 
 import simulator.misc.Vector2D;
 import simulator.model.BodiesGroup;
@@ -71,11 +70,11 @@ class Viewer extends SimulationViewer {
 		// initialize the color generator, and the map, that we use
 		// assign colors to groups
 		_colorGen = new ColorsGenerator();
-		_gColor = new HashMap<>();
+		_gColor = new HashMap<String, Color>();
 
 		// initialize the lists of bodies and groups
-		_bodies = new ArrayList<>();
-		_groups = new ArrayList<>();
+		_bodies = new ArrayList<Body>();
+		_groups = new ArrayList<BodiesGroup>();
 
 		// The preferred and minimum size of the components
 		setMinimumSize(new Dimension(_WIDTH, _HEIGHT));
@@ -170,32 +169,41 @@ class Viewer extends SimulationViewer {
 				case 'j':
 					_originX -= 10;
 					repaint();
+					break;
 				case 'l':
 					_originX += 10;
 					repaint();
+					break;
 				case 'i':
 					_originY += 10;
 					repaint();
+					break;
 				case 'm':
 					_originY -= 10;
 					repaint();
+					break;
 				case 'k':
 					_originX = 0;
 					_originY = 0;
 					repaint();
+					break;
 				case 'h':
 					_showHelp = !_showHelp;
 					repaint();
+					break;
 				case 'v':
 					_showVectors = !_showVectors;
 					repaint();
+					break;
 				case 'g':
 					_selectedGroupIdx--;
-					if(_selectedGroupIdx == -1) {
+					if(_selectedGroupIdx <= -1) {
 						_selectedGroupIdx = _groups.size() - 1;
 						_selectedGroup = null;
 					}
 					else _selectedGroup = _groups.get(_selectedGroupIdx).getId();
+					repaint();
+					break;
 				default:
 				}
 			}
@@ -278,14 +286,13 @@ class Viewer extends SimulationViewer {
 		 * 
 		 */
 		g.setColor(Color.RED);
-		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit"
-				+ "\ng: show next group"
-				+ "\nl: move right, j: move left, i: move up, m: move down: k: reset"
-				+ "\nScaling ratio: " + _scale, 10, 30);
-		
+		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit", 10, 15);
+		g.drawString("g: show next group", 10, 30);
+		g.drawString("l: move right, j: move left, i: move up, m: move down: k: reset", 10, 45);
+		g.drawString("Scaling ratio: " + _scale, 10, 60);
 		g.setColor(Color.BLUE);
-		if(_selectedGroup != null) g.drawString("Selected groups: " + _selectedGroup, 10, 30);
-		else g.drawString("Selected groups: all", 10, 30);
+		if(_selectedGroup != null) g.drawString("Selected groups: " + _selectedGroup, 10, 75);
+		else g.drawString("Selected groups: all", 10, 75);
 	}
 
 	private void drawBodies(Graphics2D g) {

@@ -162,7 +162,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	
 	private void loadFile() {
-		_fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		_fc = new JFileChooser();
 		int r = _fc.showOpenDialog(Utils.getWindow(this));
 		if(r == JFileChooser.APPROVE_OPTION) {
 			File file = _fc.getSelectedFile();
