@@ -38,6 +38,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton _quitButton, fileButton, stopButton, runButton, viewButton, ForceLawsDialogButton;
 	private JTextField deltaTime;
 	private JSpinner spinner;
+	private ForceLawsDialog fld;
 	// TODO a�ade m�s atributos aqu� �
 	
 	
@@ -175,8 +176,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 	
 	private void forceLawsDialogAction() {
-		Frame frame = new Frame();
-		ForceLawsDialog fld = new ForceLawsDialog(frame, _ctrl);
+		if(fld == null) {
+			Frame frameFLD = new Frame();
+			fld = new ForceLawsDialog(frameFLD, _ctrl);
+		}
+		fld.open();
 	}
 	
 	private void viewSimulation() {
