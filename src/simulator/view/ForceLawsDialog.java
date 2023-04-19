@@ -29,7 +29,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			super(parent, true);
 				_ctrl = ctrl;
 					initGUI();
-						// TODO registrar this como observer;
+					ctrl.addObserver(this);
 	}
 	
 	private void initGUI() {

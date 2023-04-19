@@ -101,7 +101,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		//RunButton
 		runButton = new JButton();
-		runButton.setToolTipText("Stop simulation");
+		runButton.setToolTipText("Run simulation");
 		runButton.setIcon(new ImageIcon("resources/icons/run.png"));
 		runButton.addActionListener(new ActionListener() {
 			@Override
@@ -199,25 +199,25 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		_stopped = false;
 		enableToolBar(_stopped);
-		_ctrl.setDeltaTime(Double.parseDouble(deltaTime.getText()));
+		_ctrl.setDeltaTime(Double.parseDouble(deltaTime.getText().toString()));
 		run_sim(Integer.parseInt(spinner.getValue().toString()));
 		
 	}
 	
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
-		try {
-		_ctrl.run(1);
-		} catch (Exception e) {
-		// TODO llamar a Utils.showErrorMsg con el mensaje de error que
-		// corresponda
-			Utils.showErrorMsg(e.getMessage());
-		// TODO activar todos los botones
-		_stopped = true;
-		enableToolBar(_stopped);
-		return;
-		}
-		SwingUtilities.invokeLater(() -> run_sim(n - 1));
+			try {
+			_ctrl.run(1);
+			} catch (Exception e) {
+			// TODO llamar a Utils.showErrorMsg con el mensaje de error que
+			// corresponda
+				Utils.showErrorMsg(e.getMessage());
+			// TODO activar todos los botones
+			_stopped = true;
+			enableToolBar(_stopped);
+			return;
+			}
+			SwingUtilities.invokeLater(() -> run_sim(n - 1));
 		} else {
 		// TODO activar todos los botones
 		_stopped = true;
