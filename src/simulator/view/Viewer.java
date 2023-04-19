@@ -196,12 +196,12 @@ class Viewer extends SimulationViewer {
 					repaint();
 					break;
 				case 'g':
-					_selectedGroupIdx--;
 					if(_selectedGroupIdx <= -1) {
-						_selectedGroupIdx = _groups.size() - 1;
+						_selectedGroupIdx = _groups.size();
 						_selectedGroup = null;
 					}
 					else _selectedGroup = _groups.get(_selectedGroupIdx).getId();
+					_selectedGroupIdx--;
 					repaint();
 					break;
 				default:
@@ -330,13 +330,13 @@ class Viewer extends SimulationViewer {
 				
 				//ID
 				g.setColor(Color.BLACK);
-				g.drawString(b.getId(), posX - 10, posY + 10);
+				g.drawString(b.getId(), posX, posY - 5);
 				
 				if(_showVectors) {
 					//VECTOR FUERZA
-					drawLineWithArrow(g, posX, posY, posX + (int) b.getForce().getX(), posY + (int) b.getForce().getY(), 3, 6, Color.RED, Color.RED);
+					drawLineWithArrow(g, posX + 5, posY, posX + (int) (b.getForce().getX()/100), posY + (int) (b.getForce().getY()/100), 3, 6, Color.RED, Color.RED);
 					//VECTOR VELOCIDAD
-					drawLineWithArrow(g, posX, posY, posX + (int) b.getVelocity().getX(), posY + (int) b.getVelocity().getY(), 3, 6, Color.GREEN, Color.GREEN);
+					drawLineWithArrow(g, posX + 5, posY, posX + (int) (b.getVelocity().getX()/100), posY + (int) (b.getVelocity().getY()/100), 3, 6, Color.GREEN, Color.GREEN);
 				}
 			}
 		}

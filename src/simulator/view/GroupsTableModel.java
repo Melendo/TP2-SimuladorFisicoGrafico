@@ -50,9 +50,11 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 			res = bg.getForceLawsInfo();
 			break;
 		case 2:
+			String r = "";
 			for(Body b : bg) {
-				res = b.getId();
+				r += (b.getId() + ", ");
 			}
+			res = r;
 			break;
 		}
 		return res;
@@ -61,6 +63,11 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
+		this._groups.clear();
+		for(String i : groups.keySet()) {
+			this._groups.add(groups.get(i));
+		}
+		fireTableStructureChanged();
 	}
 
 	@Override
@@ -86,7 +93,6 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 		fireTableStructureChanged();
 	}
 
-	//BUSCAR MANERA MÁS EFICIENTE
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
