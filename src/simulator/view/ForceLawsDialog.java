@@ -2,7 +2,8 @@ package simulator.view;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 import simulator.control.Controller;
@@ -23,6 +24,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	private Controller _ctrl;
 	private List<JSONObject> _forceLawsInfo;
 	private String[] _headers = { "Key", "Value", "Description" };
+	JTable tabla;
+	JButton botonOk, botonCancel;
 	// TODO en caso de ser necesario, añadir los atributos aquí…
 	
 	ForceLawsDialog(Frame parent, Controller ctrl) {
@@ -40,12 +43,15 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		// _forceLawsInfo se usará para establecer la información en la tabla
 		_forceLawsInfo = _ctrl.getForceLawsInfo();
 		// TODO crear un JTable que use _dataTableModel, y añadirla al panel
+		tabla = new JTable(_dataTableModel);
+		mainPanel.add(tabla);
+		
 		_dataTableModel = new DefaultTableModel() {
 			
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				// TODO hacer editable solo la columna 1
-				return true;
+				return column == 1;
 			}
 		};
 		
@@ -56,6 +62,29 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		_groupsModel = new DefaultComboBoxModel<>();
 		// TODO crear un combobox que use _groupsModel y añadirlo al panel
 		// TODO crear los botones OK y Cancel y añadirlos al panel
+		
+		botonOk = new JButton("Ok");
+		botonOk.setToolTipText("Confirmar");
+		botonOk.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mainPanel.add(botonOk);
+		
+		
+		botonCancel = new JButton("Cancelar");
+		botonCancel.setToolTipText("Cancelar operacion");
+		botonCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mainPanel.add(botonCancel);
+		
+		
 		setPreferredSize(new Dimension(700, 400));
 		pack();
 		setResizable(false);
