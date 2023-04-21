@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -24,8 +25,12 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	private Controller _ctrl;
 	private List<JSONObject> _forceLawsInfo;
 	private String[] _headers = { "Key", "Value", "Description" };
-	JTable tabla;
-	JButton botonOk, botonCancel;
+	private JTable tabla;
+	private JButton botonOk, botonCancel;
+	private JScrollPane scroll;
+	private Box vox, botonVox;
+	private JComboBox Lcombovox, Gcombovox ;
+	
 	// TODO en caso de ser necesario, añadir los atributos aquí…
 	
 	ForceLawsDialog(Frame parent, Controller ctrl) {
@@ -43,8 +48,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		// _forceLawsInfo se usará para establecer la información en la tabla
 		_forceLawsInfo = _ctrl.getForceLawsInfo();
 		// TODO crear un JTable que use _dataTableModel, y añadirla al panel
-		tabla = new JTable(_dataTableModel);
-		mainPanel.add(tabla);
+		
 		
 		_dataTableModel = new DefaultTableModel() {
 			
@@ -56,39 +60,90 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		};
 		
 		_dataTableModel.setColumnIdentifiers(_headers);
+		tabla = new JTable(_dataTableModel);
+		scroll = new JScrollPane(tabla);
+		mainPanel.add(scroll);
+		
+		
 		_lawsModel = new DefaultComboBoxModel<>();
 		// TODO añadir la descripción de todas las leyes de fuerza a _lawsModel
+		
+		for(JSONObject obj: _forceLawsInfo) {
+			_lawsModel.addElement(obj.get("desc").toString());
+		}
+		
+		
 		// TODO crear un combobox que use _lawsModel y añadirlo al panel
+		
+		vox = Box.createHorizontalBox();
+		Lcombovox = new JComboBox<>(_lawsModel);
+		Lcombovox.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Lcombovox.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		comboActionPerformed(e);
+
+		}
+
+		});
+		
+		vox.add(new JLabel("Force Law: "));
+		vox.add(Lcombovox);
+		vox.add(new JLabel("Group: "));
+		
+		
 		_groupsModel = new DefaultComboBoxModel<>();
 		// TODO crear un combobox que use _groupsModel y añadirlo al panel
+	
+		Gcombovox = new JComboBox<>(_groupsModel);
+		vox.add(Gcombovox);
+		
+		mainPanel.add(vox);
 		// TODO crear los botones OK y Cancel y añadirlos al panel
 		
+		
 		botonOk = new JButton("Ok");
-		botonOk.setToolTipText("Confirmar");
 		botonOk.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		okActionPerformed(e);
+		}
 		});
-		mainPanel.add(botonOk);
+		botonOk.setAlignmentX(CENTER_ALIGNMENT);
 		
-		
-		botonCancel = new JButton("Cancelar");
-		botonCancel.setToolTipText("Cancelar operacion");
+		botonCancel = new JButton("Cancel");
 		botonCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		cancelActionPerformed(e);
+		}
 		});
-		mainPanel.add(botonCancel);
+		botonCancel.setAlignmentX(CENTER_ALIGNMENT);
+		
+		botonVox =  Box.createHorizontalBox();
+		botonVox.add(botonCancel);
+		botonVox.add(botonOk);
+		mainPanel.add(botonVox);
 		
 		
 		setPreferredSize(new Dimension(700, 400));
 		pack();
 		setResizable(false);
 		setVisible(false);
+	}
+	
+	private void comboActionPerformed(ActionEvent e) {
+
+		
+	}
+	
+	private void okActionPerformed(ActionEvent e) {
+		
+	}
+	
+	private void cancelActionPerformed(ActionEvent e) {
+		
 	}
 	
 	public void open() {
@@ -100,6 +155,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		setVisible(true);
 		//return _status;
 	}
+	
 	// TODO el resto de métodos van aquí…
 
 	@Override
