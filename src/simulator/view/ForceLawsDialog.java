@@ -160,10 +160,13 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		JSONObject dataLaw = _forceLawsInfo.get(sel).getJSONObject("data");
 		
 		for (String str : dataLaw.keySet()) {
+			
 			Vector<String> vector = new Vector<String>();
+			
 			vector.add(str);
 			vector.add("");
 			vector.add(dataLaw.getString(str));
+			
 			_dataTableModel.addRow(vector);
 		}
 		_selectedLawsIndex = sel;
@@ -172,7 +175,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	}
 	
 	private void okAction(ActionEvent e) {
-		
+		_status = 1;
 	}
 	
 	private void cancelAction(ActionEvent e) {
@@ -180,15 +183,15 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		this.setVisible(false);
 	}
 	
-	public void open() {
+	public int open() {
 		if (_groupsModel.getSize() == 0)
-		//return _status;
+		return _status;
 		// TODO Establecer la posición de la ventana de diálogo de tal manera que se
 		// abra en el centro de la ventana principal
-		//this.setLocationRelativeTo(getParent());
+		this.setLocationRelativeTo(getParent());
 		pack();
 		setVisible(true);
-		//return _status;
+		return _status;
 	}
 	
 	// TODO el resto de métodos van aquí…
