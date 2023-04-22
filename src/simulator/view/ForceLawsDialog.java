@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+
 import simulator.control.Controller;
 
 import javax.swing.*;
@@ -32,6 +34,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	private JComboBox Lcombovox, Gcombovox ;
 	private JLabel texto1, texto2;
 	private int _status;
+	private int _selectedLawsIndex;
 	
 	// TODO en caso de ser necesario, añadir los atributos aquí…
 	
@@ -39,6 +42,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			super(parent, true);
 				_ctrl = ctrl;
 					initGUI();
+					load(0);
 					ctrl.addObserver(this);
 	}
 	
@@ -71,8 +75,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		tabla = new JTable(_dataTableModel);
 		mainPanel.add(tabla);
 		scroll = new JScrollPane(tabla);
-		mainPanel.add(scroll);
-		
+		mainPanel.add(scroll);		
 		
 		_lawsModel = new DefaultComboBoxModel<>();
 		// TODO añadir la descripción de todas las leyes de fuerza a _lawsModel
@@ -91,7 +94,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		comboActionPerformed(e);
+		lawsComboBoxAction(e);
 
 		}
 
@@ -117,7 +120,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		botonOk.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		okActionPerformed(e);
+		okAction(e);
 		}
 		});
 		
@@ -126,7 +129,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		botonCancel.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		cancelActionPerformed(e);
+		cancelAction(e);
 		}
 		});
 		
@@ -142,15 +145,37 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		setVisible(false);
 	}
 	
-	private void comboActionPerformed(ActionEvent e) {
+	private void lawsComboBoxAction(ActionEvent e) {
+		int seleccion = Lcombovox.getSelectedIndex();
+		this.load(seleccion);
+	}
+	
+	private void load(int sel) {
+		//borramos la tabla
+		int rowCount = _dataTableModel.getRowCount();;
+		for (int i = 0; i < rowCount; i++) {
+			_dataTableModel.removeRow(0);
+		}
+		
+		JSONObject dataLaw = _forceLawsInfo.get(sel).getJSONObject("data");
+		
+		for (String str : dataLaw.keySet()) {
+			Vector<String> vector = new Vector<String>();
+			vector.add(str);
+			vector.add("");
+			vector.add(dataLaw.getString(str));
+			_dataTableModel.addRow(vector);
+		}
+		_selectedLawsIndex = sel;
+		_dataTableModel.fireTableStructureChanged();
 		
 	}
 	
-	private void okActionPerformed(ActionEvent e) {
+	private void okAction(ActionEvent e) {
 		
 	}
 	
-	private void cancelActionPerformed(ActionEvent e) {
+	private void cancelAction(ActionEvent e) {
 		_status = 0;
 		this.setVisible(false);
 	}
@@ -185,7 +210,10 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		for (String i : groups.keySet()) 
 			_groupsModel.addElement(groups.get(i).getId());
+		
+		_selectedLawsIndex = 0;
 	}
+		
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
