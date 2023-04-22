@@ -35,10 +35,10 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 		JScrollPane scroll = new JScrollPane();
 		mainPanel.add(scroll);
 		setContentPane(mainPanel);
-		// TODO crear el viewer y añadirlo a mainPanel (en el centro)
+		// TODO crear el viewer y aï¿½adirlo a mainPanel (en el centro)
 		_viewer = new Viewer();
 		mainPanel.add(_viewer, BorderLayout.CENTER);
-		// TODO en el método windowClosing, eliminar ‘this’ de los observadores
+		// TODO en el mï¿½todo windowClosing, eliminar ï¿½thisï¿½ de los observadores
 		addWindowListener(new WindowListener() {
 
 			@Override
@@ -84,14 +84,16 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 			
 		});
 		pack();
-		if (_parent != null)
+		/*if (_parent != null)
 			setLocation(
 					_parent.getLocation().x + _parent.getWidth()/2 - getWidth()/2,
 					_parent.getLocation().y + _parent.getHeight()/2 - getHeight()/2);
 		setVisible(true);
+	}*/
+		this.setLocationRelativeTo(getParent());
+		setVisible(true);
 	}
-	
-	// TODO otros métodos van aquí….
+	// TODO otros mï¿½todos van aquï¿½.
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
