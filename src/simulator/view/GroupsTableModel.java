@@ -52,7 +52,7 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 		case 2:
 			String r = "";
 			for(Body b : bg) {
-				r += (b.getId() + ", ");
+				r += (b.getId() + " ");
 			}
 			res = r;
 			break;
@@ -114,7 +114,7 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
 		// TODO Auto-generated method stub
-
+		fireTableStructureChanged();
 	}
 
 }

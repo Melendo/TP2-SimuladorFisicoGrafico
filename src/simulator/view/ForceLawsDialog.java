@@ -14,6 +14,7 @@ import simulator.control.Controller;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.model.BodiesGroup;
@@ -21,6 +22,7 @@ import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
 class ForceLawsDialog extends JDialog implements SimulatorObserver {
+	
 	private DefaultComboBoxModel<String> _lawsModel;
 	private DefaultComboBoxModel<String> _groupsModel;
 	private DefaultTableModel _dataTableModel;
@@ -120,8 +122,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		botonOk.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		okAction(e);
-		}
+				okAction(e);
+			}
 		});
 		
 		botonCancel = new JButton("Cancel");
@@ -175,7 +177,41 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	}
 	
 	private void okAction(ActionEvent e) {
-		_status = 1;
+		JSONObject data = new JSONObject();
+		JSONObject res = new JSONObject();
+		JSONArray array = new JSONArray();
+		String v, arrayV[];
+		
+		try {			
+			for(int i = 0; i < _dataTableModel.getRowCount(); i++) {
+				
+				v = _dataTableModel.getValueAt(i, 1).toString();
+				
+				if(v.charAt(0) == '[') { 
+					v = v.replace('[', ' ').replace(']',' ');
+					
+					arrayV = v.split(",");
+					array.put(Double.parseDouble(arrayV[0]));
+					array.put(Double.parseDouble(arrayV[1]));
+					data.put(_dataTableModel.getValueAt(i, 0).toString(), array);				
+				}
+				
+				
+				else data.put(_dataTableModel.getValueAt(i, 0).toString(), Double.parseDouble(v));
+			}
+			
+			res.put("type", _forceLawsInfo.get(_selectedLawsIndex).get("type"));
+			res.put("data", data);
+			_ctrl.setForcesLaws(Gcombovox.getSelectedItem().toString(), res);
+			_status = 1;
+			this.setVisible(false);
+			
+			
+		}
+		catch (Exception excpt) {
+			Utils.showErrorMsg("ERROR:" + excpt.getMessage());
+		}
+		
 	}
 	
 	private void cancelAction(ActionEvent e) {

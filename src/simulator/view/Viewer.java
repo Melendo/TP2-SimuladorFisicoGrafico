@@ -70,11 +70,11 @@ class Viewer extends SimulationViewer {
 		// initialize the color generator, and the map, that we use
 		// assign colors to groups
 		_colorGen = new ColorsGenerator();
-		_gColor = new HashMap<String, Color>();
+		_gColor = new HashMap<>();
 
 		// initialize the lists of bodies and groups
-		_bodies = new ArrayList<Body>();
-		_groups = new ArrayList<BodiesGroup>();
+		_bodies = new ArrayList<>();
+		_groups = new ArrayList<>();
 
 		// The preferred and minimum size of the components
 		setMinimumSize(new Dimension(_WIDTH, _HEIGHT));
@@ -334,9 +334,11 @@ class Viewer extends SimulationViewer {
 				
 				if(_showVectors) {
 					//VECTOR FUERZA
-					drawLineWithArrow(g, posX + 5, posY, posX + (int) (b.getForce().getX()/100), posY + (int) (b.getForce().getY()/100), 3, 6, Color.RED, Color.RED);
+					Vector2D f = b.getForce().direction();
+					drawLineWithArrow(g, posX + 5, posY, posX + (int)(f.getX()*25), posY + (int) (f.getY()*(-25)), 3, 3, Color.RED, Color.RED);
 					//VECTOR VELOCIDAD
-					drawLineWithArrow(g, posX + 5, posY, posX + (int) (b.getVelocity().getX()/100), posY + (int) (b.getVelocity().getY()/100), 3, 6, Color.GREEN, Color.GREEN);
+					Vector2D v = b.getVelocity().direction();
+					drawLineWithArrow(g, posX + 5, posY, posX + (int)(v.getX()*25), posY + (int) (v.getY()*(-25)), 3, 3, Color.GREEN, Color.GREEN);
 				}
 			}
 		}
