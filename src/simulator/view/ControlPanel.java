@@ -15,6 +15,7 @@ import javax.swing.JToolBar;
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -133,6 +134,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(texto2);
 		_toolaBar.addSeparator();
 		spinner = new JSpinner();
+		spinner.setPreferredSize(new Dimension(100, 50));
 		_toolaBar.add(spinner);
 		_toolaBar.addSeparator();
 		
@@ -143,6 +145,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.addSeparator();
 		deltaTime = new JTextField(10);
 		deltaTime.setEditable(true);
+		deltaTime.setPreferredSize(new Dimension(100, 50));
 		_toolaBar.add(deltaTime);
 		_toolaBar.addSeparator();
 		

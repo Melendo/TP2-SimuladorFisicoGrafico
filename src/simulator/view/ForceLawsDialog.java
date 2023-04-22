@@ -30,6 +30,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	private JScrollPane scroll;
 	private Box vox, botonVox;
 	private JComboBox Lcombovox, Gcombovox ;
+	private JLabel texto1, texto2;
+	private int _status;
 	
 	// TODO en caso de ser necesario, añadir los atributos aquí…
 	
@@ -59,8 +61,15 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			}
 		};
 		
+		texto1 = new JLabel("Select a force law and provide values for the parameters in the Value column");
+		texto1.setAlignmentX(RIGHT_ALIGNMENT);
+		texto2 = new JLabel("(default values are used for parameter with no value).");
+		texto2.setAlignmentX(RIGHT_ALIGNMENT);
+		mainPanel.add(texto1);
+		mainPanel.add(texto2);
 		_dataTableModel.setColumnIdentifiers(_headers);
 		tabla = new JTable(_dataTableModel);
+		mainPanel.add(tabla);
 		scroll = new JScrollPane(tabla);
 		mainPanel.add(scroll);
 		
@@ -104,22 +113,22 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		
 		
 		botonOk = new JButton("Ok");
+		botonOk.setAlignmentX(CENTER_ALIGNMENT);
 		botonOk.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		okActionPerformed(e);
 		}
 		});
-		botonOk.setAlignmentX(CENTER_ALIGNMENT);
 		
 		botonCancel = new JButton("Cancel");
+		botonCancel.setAlignmentX(CENTER_ALIGNMENT);
 		botonCancel.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 		cancelActionPerformed(e);
 		}
 		});
-		botonCancel.setAlignmentX(CENTER_ALIGNMENT);
 		
 		botonVox =  Box.createHorizontalBox();
 		botonVox.add(botonCancel);
@@ -134,7 +143,6 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	}
 	
 	private void comboActionPerformed(ActionEvent e) {
-
 		
 	}
 	
@@ -143,7 +151,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	}
 	
 	private void cancelActionPerformed(ActionEvent e) {
-		
+		_status = 0;
+		this.setVisible(false);
 	}
 	
 	public void open() {
@@ -151,6 +160,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		//return _status;
 		// TODO Establecer la posición de la ventana de diálogo de tal manera que se
 		// abra en el centro de la ventana principal
+		//this.setLocationRelativeTo(getParent());
 		pack();
 		setVisible(true);
 		//return _status;
@@ -167,19 +177,20 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		_groupsModel.removeAllElements();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		for (String i : groups.keySet()) 
+			_groupsModel.addElement(groups.get(i).getId());
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
 		// TODO Auto-generated method stub
-		
+		_groupsModel.addElement(g.getId());
 	}
 
 	@Override
