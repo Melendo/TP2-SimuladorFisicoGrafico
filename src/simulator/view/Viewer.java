@@ -355,7 +355,7 @@ class Viewer extends SimulationViewer {
 		 * ES: devuelve true si _selectedGroup es null o igual a b.getgId()
 		 *
 		 */
-		if(_selectedGroup == null || _selectedGroup == b.getgId()) return true;
+		if(_selectedGroup == null || _selectedGroup.equals(b.getgId())) return true;
 		else return false;
 		
 	}
