@@ -324,14 +324,6 @@ class Viewer extends SimulationViewer {
 				int posX = (int) (_centerX + (b.getPosition().getX()/_scale));
 				int posY = (int) (_centerY - (b.getPosition().getY()/_scale));
 				
-				//CUERPO
-				g.setColor(_gColor.get(b.getgId()));
-				g.fillOval(posX, posY, 10, 10);
-				
-				//ID
-				g.setColor(Color.BLACK);
-				g.drawString(b.getId(), posX, posY - 5);
-				
 				if(_showVectors) {
 					//VECTOR FUERZA
 					Vector2D f = b.getForce().direction();
@@ -340,6 +332,16 @@ class Viewer extends SimulationViewer {
 					Vector2D v = b.getVelocity().direction();
 					drawLineWithArrow(g, posX + 5, posY, posX + (int)(v.getX()*25), posY + (int) (v.getY()*(-25)), 3, 3, Color.GREEN, Color.GREEN);
 				}
+				
+				//CUERPO
+				g.setColor(_gColor.get(b.getgId()));
+				g.fillOval(posX, posY, 10, 10);
+				
+				//ID
+				g.setColor(Color.BLACK);
+				g.drawString(b.getId(), posX, posY - 5);
+				
+				
 			}
 		}
 	}
