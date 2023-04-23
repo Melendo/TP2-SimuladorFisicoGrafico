@@ -207,7 +207,7 @@ public class Main {
 	
 	private static void parseModeOption(CommandLine line) throws ParseException{
 		if(line.hasOption("m")) {
-			if(line.getOptionValue("m").equalsIgnoreCase("console")) {
+			if(line.getOptionValue("m").equalsIgnoreCase("batch")) {
 				modo = "batch";
 			}else if(line.getOptionValue("m").equalsIgnoreCase("gui")){
 				modo = "gui";	

@@ -327,10 +327,10 @@ class Viewer extends SimulationViewer {
 				if(_showVectors) {
 					//VECTOR FUERZA
 					Vector2D f = b.getForce().direction();
-					drawLineWithArrow(g, posX + 5, posY, posX + (int)(f.getX()*25), posY + (int) (f.getY()*(-25)), 3, 3, Color.RED, Color.RED);
+					drawLineWithArrow(g, posX + 5, posY + 5, posX + (int)(f.getX()*25), posY + (int) (f.getY()*(-25)), 3, 3, Color.RED, Color.RED);
 					//VECTOR VELOCIDAD
 					Vector2D v = b.getVelocity().direction();
-					drawLineWithArrow(g, posX + 5, posY, posX + (int)(v.getX()*25), posY + (int) (v.getY()*(-25)), 3, 3, Color.GREEN, Color.GREEN);
+					drawLineWithArrow(g, posX + 5, posY + 5, posX + (int)(v.getX()*25), posY + (int) (v.getY()*(-25)), 3, 3, Color.GREEN, Color.GREEN);
 				}
 				
 				//CUERPO

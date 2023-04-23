@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.filechooser.FileSystemView;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
