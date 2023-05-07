@@ -100,14 +100,6 @@ public class BodiesGroup implements Iterable<Body>{
 	@Override
 	public Iterator<Body> iterator() {
 		// TODO Auto-generated method stub
-		return new Iterator<Body>() {
-			Iterator<Body> it = bsNM.iterator();
-			@Override
-			public Body next() { return it.next(); }
-			@Override
-			public boolean hasNext() { return it.hasNext(); }
-			@Override
-			public void remove() { throw new UnsupportedOperationException("No se puede modificar la lista de cuerpos"); }
-			};
+		return bsNM.iterator();
 	}
 }

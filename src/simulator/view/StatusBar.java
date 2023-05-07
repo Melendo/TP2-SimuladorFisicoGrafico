@@ -27,8 +27,8 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	
 	public StatusBar(Controller ctrl) {
 		this.ctrl = ctrl;
-		ctrl.addObserver(this);
 		initGUI();
+		ctrl.addObserver(this);
 	}
 	
 	private void initGUI() {
@@ -98,7 +98,9 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
 		setTime(time);
+		lTime.setText("Time: " + getTime());
 		setNGroups(groups.size());
+		lGroups.setText("Groups: " + getNGroups());
 	}
 
 	@Override

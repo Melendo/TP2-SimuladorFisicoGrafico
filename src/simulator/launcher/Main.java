@@ -173,9 +173,6 @@ public class Main {
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		if(line.hasOption("i")) {
 			_inFile = line.getOptionValue("i");
-			if (_inFile == null) {
-				throw new ParseException("An input file of bodies is required");
-			}
 		}
 	}
 	
@@ -270,34 +267,40 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws Exception {
-		InputStream is = new FileInputStream(new File(_inFile));
+		InputStream is = null;
+		if(_inFile != null) {
+			is = new FileInputStream(new File(_inFile));
+		}
+		else {
+			throw new ParseException("In batch mode an input file of bodies is required");
+		}
+		
+		PhysicsSimulator sim = new PhysicsSimulator(_forceLawsFactory.createInstance(_forceLawsInfo), _dtime);
+		Controller ctr = new Controller(sim, _bodyFactory, _forceLawsFactory);
+		
         OutputStream os = null;
-
         if(_outFile == null) {
             os = System.out;
         } else {
             os = new FileOutputStream(new File(_outFile));
         }
-		PhysicsSimulator sim = new PhysicsSimulator(_forceLawsFactory.createInstance(_forceLawsInfo), _dtime);
-		Controller ctr = new Controller(sim, _bodyFactory, _forceLawsFactory); 
+		
 		ctr.loadData(is);
 		ctr.run(_dtime, os);
 		is.close();
 		os.close();
 	}
 	
-	private static void startGUIMode() throws Exception {
+	private static void startGUIMode() throws Exception{
 		PhysicsSimulator sim = new PhysicsSimulator(_forceLawsFactory.createInstance(_forceLawsInfo), _dtime);
 		Controller ctr = new Controller(sim, _bodyFactory, _forceLawsFactory); 
 		SwingUtilities.invokeAndWait(() -> new MainWindow(ctr));
 		
-		InputStream is = null;
-		try {
-			is = new FileInputStream(new File(_inFile));
+		if(_inFile != null) {
+			InputStream is = new FileInputStream(new File(_inFile));
 			ctr.loadData(is);
-		} catch (Exception e) {}
-		is.close();
-		
+			is.close();
+		}
 	}
 
 

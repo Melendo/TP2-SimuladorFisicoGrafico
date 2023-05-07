@@ -196,12 +196,12 @@ class Viewer extends SimulationViewer {
 					repaint();
 					break;
 				case 'g':
-					if(_selectedGroupIdx <= -1) {
-						_selectedGroupIdx = _groups.size();
+					_selectedGroupIdx++;
+					if(_selectedGroupIdx == _groups.size()) {
+						_selectedGroupIdx = -1;
 						_selectedGroup = null;
 					}
 					else _selectedGroup = _groups.get(_selectedGroupIdx).getId();
-					_selectedGroupIdx--;
 					repaint();
 					break;
 				default:

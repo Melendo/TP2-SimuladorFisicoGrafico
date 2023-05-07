@@ -129,7 +129,7 @@ public class PhysicsSimulator implements Observable<SimulatorObserver>{
 		if(!this.listaOb.contains(o)) {
 			this.listaOb.add(o);
 		}
-		this.listaOb.get(this.listaOb.size() - 1).onRegister(mpNM, ta, dt);
+		o.onRegister(mpNM, ta, dt);
 	}
 
 	@Override

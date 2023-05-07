@@ -63,10 +63,6 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-		this._groups.clear();
-		for(String i : groups.keySet()) {
-			this._groups.add(groups.get(i));
-		}
 		fireTableStructureChanged();
 	}
 
@@ -96,12 +92,6 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
-		for(BodiesGroup bg : this._groups) {
-			if(b.getgId() == bg.getId()) {
-				bg = groups.get(b.getgId());
-				break;
-			}
-		}
 		fireTableStructureChanged();
 	}
 

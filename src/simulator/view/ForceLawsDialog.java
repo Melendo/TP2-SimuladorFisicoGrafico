@@ -154,10 +154,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	
 	private void load(int sel) {
 		//borramos la tabla
-		int rowCount = _dataTableModel.getRowCount();;
-		for (int i = 0; i < rowCount; i++) {
-			_dataTableModel.removeRow(0);
-		}
+		_dataTableModel.setRowCount(0);
 		
 		JSONObject dataLaw = _forceLawsInfo.get(sel).getJSONObject("data");
 		
@@ -224,7 +221,6 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		return _status;
 		// TODO Establecer la posición de la ventana de diálogo de tal manera que se
 		// abra en el centro de la ventana principal
-		this.setLocationRelativeTo(getParent());
 		pack();
 		setVisible(true);
 		return _status;

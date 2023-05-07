@@ -179,15 +179,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private void forceLawsDialogAction() {
 		if(fld == null) {
-			Frame frameFLD = new Frame();
-			fld = new ForceLawsDialog(frameFLD, _ctrl);
+			fld = new ForceLawsDialog(Utils.getWindow(this), _ctrl);
 		}
 		fld.open();
 	}
 	
 	private void viewSimulation() {
-		JFrame frame = new JFrame();
-		ViewerWindow viewer = new ViewerWindow(frame, _ctrl);
+		ViewerWindow viewer = new ViewerWindow((JFrame) Utils.getWindow(this), _ctrl);
 	}
 	
 	

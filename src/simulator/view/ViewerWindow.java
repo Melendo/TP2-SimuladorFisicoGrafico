@@ -85,7 +85,9 @@ public class ViewerWindow extends JFrame implements SimulatorObserver {
 		});
 		pack();
 		if (_parent != null)
-			_parent.setLocationRelativeTo(getParent());
+			setLocation(
+					_parent.getLocation().x + _parent.getWidth()/2 - getWidth()/2,
+					_parent.getLocation().y + _parent.getHeight()/2 - getHeight()/2);
 		setVisible(true);
 	}
 	// TODO otros m�todos van aqu�.
