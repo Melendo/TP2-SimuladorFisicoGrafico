@@ -15,7 +15,6 @@ import javax.swing.JToolBar;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -196,11 +195,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 	
 	private void run() {
-		
 		_stopped = false;
 		enableToolBar(_stopped);
+		
+		try {
 		_ctrl.setDeltaTime(Double.parseDouble(deltaTime.getText().toString()));
 		run_sim(Integer.parseInt(spinner.getValue().toString()));
+		}
+		catch(NumberFormatException n) {
+			Utils.showErrorMsg(n.getMessage());
+		}
 		
 	}
 	

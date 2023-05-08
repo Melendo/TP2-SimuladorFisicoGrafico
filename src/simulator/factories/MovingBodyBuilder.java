@@ -44,4 +44,10 @@ public class MovingBodyBuilder extends Builder<Body> {
 		
 	}
 
+	@Override
+	protected void getData(JSONObject data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

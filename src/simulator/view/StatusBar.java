@@ -81,8 +81,6 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		setTime(time);
 		lTime.setText("Time: " + getTime());
-		setNGroups(groups.size());
-		lGroups.setText("Groups: " + getNGroups());
 	}
 
 	@Override

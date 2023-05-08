@@ -13,8 +13,6 @@ import simulator.control.Controller;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.model.BodiesGroup;
@@ -174,36 +172,15 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	}
 	
 	private void okAction(ActionEvent e) {
-		JSONObject data = new JSONObject();
 		JSONObject res = new JSONObject();
-		JSONArray array = new JSONArray();
-		String v, arrayV[];
 		
-		try {			
-			for(int i = 0; i < _dataTableModel.getRowCount(); i++) {
-				
-				v = _dataTableModel.getValueAt(i, 1).toString();
-				
-				if(v.charAt(0) == '[') { 
-					v = v.replace('[', ' ').replace(']',' ');
-					
-					arrayV = v.split(",");
-					array.put(Double.parseDouble(arrayV[0]));
-					array.put(Double.parseDouble(arrayV[1]));
-					data.put(_dataTableModel.getValueAt(i, 0).toString(), array);				
-				}
-				
-				
-				else data.put(_dataTableModel.getValueAt(i, 0).toString(), Double.parseDouble(v));
-			}
-			
+		try {
 			res.put("type", _forceLawsInfo.get(_selectedLawsIndex).get("type"));
-			res.put("data", data);
+			res.put("data", new JSONObject(getJSON()));
 			_ctrl.setForcesLaws(Gcombovox.getSelectedItem().toString(), res);
 			_status = 1;
 			this.setVisible(false);
-			
-			
+
 		}
 		catch (Exception excpt) {
 			Utils.showErrorMsg("ERROR:" + excpt.getMessage());
@@ -226,7 +203,28 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		return _status;
 	}
 	
-	// TODO el resto de métodos van aquí…
+	public String getJSON() {
+		StringBuilder s = new StringBuilder();
+		s.append('{');
+		for (int i = 0; i < _dataTableModel.getRowCount(); i++) {
+			String k = _dataTableModel.getValueAt(i, 0).toString();
+			String v = _dataTableModel.getValueAt(i, 1).toString();
+			if (!v.isEmpty()) {
+				s.append('"');
+				s.append(k);
+				s.append('"');
+				s.append(':');
+				s.append(v);
+				s.append(',');
+			}
+		}
+
+		if (s.length() > 1)
+			s.deleteCharAt(s.length() - 1);
+		s.append('}');
+
+		return s.toString();
+	}
 
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {

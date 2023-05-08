@@ -28,4 +28,10 @@ public class NoForceBuilder extends Builder<ForceLaws> {
 		return json;
 	}
 
+	@Override
+	protected void getData(JSONObject data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

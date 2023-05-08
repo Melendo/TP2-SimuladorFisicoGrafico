@@ -33,4 +33,10 @@ public class StationaryBodyBuilder extends Builder<Body> {
 		
 		return new StationaryBody(id, gid, p, m);
 }
+
+	@Override
+	protected void getData(JSONObject data) {
+		// TODO Auto-generated method stub
+		
+	}
 }
