@@ -6,7 +6,6 @@ public abstract class Builder<T> {
 	protected String _typeTag;
 	protected String _desc;
 
-	//SOS MAGIC NUMBERS
 	public Builder(String typeTag, String desc) {
 		if (typeTag == null || desc == null || typeTag.length() == 0 || desc.length() == 0)
 			throw new IllegalArgumentException("Invalid type/desc");

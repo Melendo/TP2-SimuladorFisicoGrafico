@@ -254,8 +254,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
-		// TODO Auto-generated method stub
-
+	this.deltaTime.setText("" + dt);
 	}
 
 	@Override
