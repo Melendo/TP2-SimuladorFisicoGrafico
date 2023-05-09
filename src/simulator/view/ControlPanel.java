@@ -53,6 +53,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar = new JToolBar();
 		add(_toolaBar, BorderLayout.PAGE_START);
 		
+		
 		// TODO crear los diferentes botones/atributos y a�adirlos a _toolaBar.
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
 		// _toolaBar.addSeparator() para a�adir la l�nea de separaci�n vertical
@@ -254,7 +255,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
-	this.deltaTime.setText("" + dt);
 	}
 
 	@Override
