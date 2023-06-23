@@ -42,7 +42,7 @@ public class Main {
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _outputDefaultValue = "prueba.json ";
 
-	// some attributes to stores values corresponding to command-line parameters
+	// some attributes to store values corresponding to command-line parameters
 	//
 	private static Integer _steps = null;
 	private static Double _dtime = null;
@@ -302,7 +302,6 @@ public class Main {
 			is.close();
 		}
 	}
-
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);

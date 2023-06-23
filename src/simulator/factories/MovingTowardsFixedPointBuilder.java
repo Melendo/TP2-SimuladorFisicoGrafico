@@ -44,7 +44,6 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	@Override
 	protected void getData(JSONObject data) {
-		// TODO Auto-generated method stub
 		data.put("c", "the point towards which bodies move (e.g., [100.0,50.0])");
 		data.put("g", "the length of the acceleration vector (a number)");
 	}

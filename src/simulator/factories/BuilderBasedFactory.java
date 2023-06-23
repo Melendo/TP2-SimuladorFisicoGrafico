@@ -12,12 +12,14 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	private Map<String,Builder<T>> _builders;
 	private List<JSONObject> _buildersInfo;
 	
+	//Constructor 
 	public BuilderBasedFactory() {
 		// Create a HashMap for _builders, a LinkedList _buildersInfo
 		this._builders = new HashMap<String, Builder<T>>(); 
 		this._buildersInfo = new LinkedList<JSONObject>();
 	}
 
+	//Añade todas los builders del parametro a _builders y la info a _buildersInfo
 	public BuilderBasedFactory(List<Builder<T>> builders) {
 		this();
 		// call addBuilder(b) for each builder b in builder
@@ -26,6 +28,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		}
 	}
 	
+	//Añade un builder en especifico, se llama en la de arriba
 	public void addBuilder(Builder<T> b) {
 		// add and entry �� b.getTag() -> b�� to _builders.
 		this._builders.put(b.getTypeTag(), b);

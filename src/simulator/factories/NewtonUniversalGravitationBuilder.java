@@ -28,7 +28,6 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws> {
 
 	@Override
 	protected void getData(JSONObject data) {
-		// TODO Auto-generated method stub
 		data.put("G", "the gravitational constant (a number)");
 	}
 
