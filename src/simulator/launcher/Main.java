@@ -127,16 +127,19 @@ public class Main {
 						+ "'.")
 				.build());
 		
+		//Designates an output file
 		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg()
 				.desc("Output file, where output is written. Default value: "
 						+ _outputDefaultValue + ".")
 				.build());
 		
+		//Steps
 		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
 				.desc("An integer representing the number of simulation steps. Default value: "
 						+ _stepsDefaultValue + ".")
 				.build());
 		
+		//Bach or gui mode
 		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
 				.desc("Execution Mode. Possible values: 'batch' (Batch mode), 'gui' (Graphical User Interface mode). Default value: 'gui'.")
 				.build());

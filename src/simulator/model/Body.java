@@ -90,11 +90,6 @@ public abstract class Body {
 	abstract void advance(double dt);
 	
 	
-	/*public int hashCode() {
-		return 0;
-	}*/
-	
-	
 	public boolean equals(Object o) {
 		Body bod = (Body) o;
 		return (id.equals(bod.getId()));
